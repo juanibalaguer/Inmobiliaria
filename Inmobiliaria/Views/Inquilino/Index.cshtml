@@ -6,9 +6,7 @@
 
 <h1>Inquilinos</h1>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary btn-outline-dark">Nuevo inquilino</a>
-</p>
+
 <table class="table popover-header">
     <thead>
         <tr>
@@ -29,6 +27,12 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Telefono)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreGarante)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TelefonoGarante)
             </th>
             <th></th>
         </tr>
@@ -54,6 +58,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Telefono)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreGarante)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TelefonoGarante)
+            </td>
 
             <td>
                 <a class="iconoLista" asp-action="Delete" asp-route-id="@item.IdInquilino" title="Eliminar">
@@ -73,3 +83,7 @@
 }
     </tbody>
 </table>
+<br/>
+<p>
+    <a asp-action="Create" class="btn btn-primary btn-outline-dark">Nuevo inquilino</a>
+</p>
