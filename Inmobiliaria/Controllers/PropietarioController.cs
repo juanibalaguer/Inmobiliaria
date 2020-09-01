@@ -1,6 +1,7 @@
 ﻿using Inmobiliaria.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 
 namespace Inmobiliaria.Controllers
@@ -8,9 +9,9 @@ namespace Inmobiliaria.Controllers
     public class PropietarioController : Controller
     {
         RepositorioPropietario repositorioPropietario;
-        public PropietarioController()
+        public PropietarioController(IConfiguration iconfiguration)
         {
-            repositorioPropietario = new RepositorioPropietario();
+            repositorioPropietario = new RepositorioPropietario(iconfiguration);
         }
         // GET: PropietarioController
         public ActionResult Index()

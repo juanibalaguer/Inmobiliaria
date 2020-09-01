@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -9,8 +10,13 @@ namespace Inmobiliaria.Models
 {
     public class RepositorioInquilino
     {
-        
-        private readonly string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog = Inmobiliaria; Integrated Security = True; Connect Timeout = 30; Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        IConfiguration configuration;
+        string connectionString;
+        public RepositorioInquilino(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+            this.connectionString = this.configuration["ConnectionStrings:DefaultConnection"];
+        }
 
         public int Create(Inquilino inquilino)
         {

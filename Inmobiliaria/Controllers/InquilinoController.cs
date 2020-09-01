@@ -5,15 +5,16 @@ using System.Threading.Tasks;
 using Inmobiliaria.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace Inmobiliaria.Controllers
 {
     public class InquilinoController : Controller
     {
         RepositorioInquilino repositorioInquilino;
-        public InquilinoController()
+        public InquilinoController(IConfiguration iconfiguration)
         {
-            repositorioInquilino = new RepositorioInquilino();
+            repositorioInquilino = new RepositorioInquilino(iconfiguration);
         }
         // GET: InquilinoController
         public ActionResult Index()
