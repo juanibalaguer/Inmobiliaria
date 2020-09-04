@@ -18,6 +18,11 @@ namespace Inmobiliaria.Controllers
         {
             try
             {
+
+                ViewBag.NuevoId = TempData["NuevoId"];
+                ViewBag.NuevaEntidad = TempData["NuevaEntidad"];
+                ViewBag.MensajeError = TempData["MensajeError"];
+
                 var propietarios = repositorioPropietario.ObtenerTodos();
                 return View(propietarios);
 
@@ -46,8 +51,19 @@ namespace Inmobiliaria.Controllers
         {
             try
             {
-                repositorioPropietario.Create(propietario);
-                return RedirectToAction(nameof(Index));
+                var resultado = repositorioPropietario.Create(propietario);
+                if(resultado != -1)
+                {
+                    TempData["NuevoId"] = resultado;
+                    TempData["NuevaEntidad"] = "propieario";
+                    ViewBag.MensajeError = TempData["MensajeError"];
+                    return RedirectToAction(nameof(Index));
+                } else
+                {
+                    TempData["MensajeError"] = "Hubo un error al crear el propietario.";
+                    return RedirectToAction(nameof(Index));
+                }
+                
             }
             catch (Exception e)
             {
@@ -101,7 +117,11 @@ namespace Inmobiliaria.Controllers
         {
             try
             {
-                repositorioPropietario.Delete(id);
+                var resultado = repositorioPropietario.Delete(id);
+                if(resultado == -1)
+                {
+                    TempData["MensajeError"] = "El propietario no pudo ser eliminado. Verifique si está asociado a un inmueble.";
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)

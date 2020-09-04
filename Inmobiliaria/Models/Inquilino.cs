@@ -22,15 +22,22 @@ namespace Inmobiliaria.Models
         [Key]
         [Display(Name = "Código")]
         public int IdInquilino { get; set; }
+        [Required]
         public int DNI { get; set; }
+        [Required]
         public string Nombre { get; set; }
+        [Required]
         public string Apellido { get; set; }
+        [Required]
         [Display(Name = "E-mail")]
         public string Email { get; set; }
+        [Required]
         [Display(Name = "Teléfono")]
         public string Telefono { get; set; }
+        [Required]
         [Display(Name = "Nombre garante")]
         public string NombreGarante { get; set; }
+        [Required]
         [Display(Name = "Teléfono garante")]
         public string TelefonoGarante { get; set; }
     }

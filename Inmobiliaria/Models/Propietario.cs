@@ -16,12 +16,17 @@ namespace Inmobiliaria.Models
         private string telefono;
         [Key]
         [Display(Name = "Código")]
-        public int IdPropietario { get; set;}
+        public int IdPropietario { get; set; }
+        [Required]
         public int DNI { get; set; }
+        [Required]
         public string Nombre { get; set; }
+        [Required]
         public string Apellido { get; set; }
+        [Required]
         [Display(Name = "E-mail")]
         public string Email { get; set; }
+        [Required]
         [Display(Name = "Teléfono")]
         public string Telefono { get; set; }
 

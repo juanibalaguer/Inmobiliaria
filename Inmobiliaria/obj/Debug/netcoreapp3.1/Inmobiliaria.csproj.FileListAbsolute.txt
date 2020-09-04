@@ -122,3 +122,7 @@ C:\Users\garba\Desktop\Tecnicatura en Desarrollo de Software\.NET\Inmobiliaria\I
 C:\Users\garba\Desktop\Tecnicatura en Desarrollo de Software\.NET\Inmobiliaria\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Inquilino\Create.cshtml.g.cs
 C:\Users\garba\Desktop\Tecnicatura en Desarrollo de Software\.NET\Inmobiliaria\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Inquilino\Edit.cshtml.g.cs
 C:\Users\garba\Desktop\Tecnicatura en Desarrollo de Software\.NET\Inmobiliaria\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Inquilino\Delete.cshtml.g.cs
+C:\Users\garba\Desktop\Tecnicatura en Desarrollo de Software\.NET\Inmobiliaria\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Inmueble\Index.cshtml.g.cs
+C:\Users\garba\Desktop\Tecnicatura en Desarrollo de Software\.NET\Inmobiliaria\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Inmueble\Create.cshtml.g.cs
+C:\Users\garba\Desktop\Tecnicatura en Desarrollo de Software\.NET\Inmobiliaria\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Inmueble\Edit.cshtml.g.cs
+C:\Users\garba\Desktop\Tecnicatura en Desarrollo de Software\.NET\Inmobiliaria\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Inmueble\Delete.cshtml.g.cs
