@@ -1,5 +1,4 @@
 ﻿using Inmobiliaria.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -22,11 +21,11 @@ namespace Inmobiliaria.Controllers
                 ViewBag.NuevoId = TempData["NuevoId"];
                 ViewBag.NuevaEntidad = TempData["NuevaEntidad"];
                 ViewBag.MensajeError = TempData["MensajeError"];
-
                 var propietarios = repositorioPropietario.ObtenerTodos();
                 return View(propietarios);
 
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 throw;
             }
@@ -52,18 +51,18 @@ namespace Inmobiliaria.Controllers
             try
             {
                 var resultado = repositorioPropietario.Create(propietario);
-                if(resultado != -1)
+                if (resultado != -1)
                 {
                     TempData["NuevoId"] = resultado;
-                    TempData["NuevaEntidad"] = "propieario";
-                    ViewBag.MensajeError = TempData["MensajeError"];
+                    TempData["NuevaEntidad"] = "propietario";
                     return RedirectToAction(nameof(Index));
-                } else
+                }
+                else
                 {
                     TempData["MensajeError"] = "Hubo un error al crear el propietario.";
                     return RedirectToAction(nameof(Index));
                 }
-                
+
             }
             catch (Exception e)
             {
@@ -79,7 +78,7 @@ namespace Inmobiliaria.Controllers
                 Propietario propietario = repositorioPropietario.ObtenerPorId(id);
                 return View(propietario);
 
-            } 
+            }
             catch (Exception e)
             {
                 throw;
@@ -118,7 +117,7 @@ namespace Inmobiliaria.Controllers
             try
             {
                 var resultado = repositorioPropietario.Delete(id);
-                if(resultado == -1)
+                if (resultado == -1)
                 {
                     TempData["MensajeError"] = "El propietario no pudo ser eliminado. Verifique si está asociado a un inmueble.";
                 }
@@ -126,7 +125,7 @@ namespace Inmobiliaria.Controllers
             }
             catch (Exception e)
             {
-                return View(propietario);
+                return View();
             }
         }
     }

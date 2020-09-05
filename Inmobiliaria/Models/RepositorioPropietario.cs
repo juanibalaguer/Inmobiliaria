@@ -1,12 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Microsoft.JSInterop.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 
 namespace Inmobiliaria.Models
 {
@@ -72,7 +68,8 @@ namespace Inmobiliaria.Models
                     try
                     {
                         resultado = command.ExecuteNonQuery();
-                    } catch (Exception e)
+                    }
+                    catch (Exception e)
                     {
                         Console.WriteLine(e);
                     }
@@ -125,19 +122,19 @@ namespace Inmobiliaria.Models
                             propietario = new Propietario
                             {
                                 IdPropietario = reader.GetInt32(0),
-                                DNI = reader.GetInt32(1),
+                                DNI = reader.GetString(1),
                                 Nombre = reader.GetString(2),
                                 Apellido = reader.GetString(3),
                                 Email = reader.GetString(4),
                                 Telefono = reader.GetString(5),
                             };
-                        }   
+                        }
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine(e);
                     }
-                    
+
                     connection.Close();
                 }
             }
@@ -162,7 +159,7 @@ namespace Inmobiliaria.Models
                             Propietario propietario = new Propietario
                             {
                                 IdPropietario = reader.GetInt32(0),
-                                DNI = reader.GetInt32(1),
+                                DNI = reader.GetString(1),
                                 Nombre = reader.GetString(2),
                                 Apellido = reader.GetString(3),
                                 Email = reader.GetString(4),
@@ -171,11 +168,12 @@ namespace Inmobiliaria.Models
 
                             propietarios.Add(propietario);
                         }
-                    } catch (Exception e)
+                    }
+                    catch (Exception e)
                     {
                         Console.WriteLine(e);
                     }
-                    
+
                     connection.Close();
 
                 }
@@ -184,6 +182,6 @@ namespace Inmobiliaria.Models
         }
     }
 }
-    
+
 
 

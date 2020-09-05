@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Inmobiliaria.Models
 {
@@ -75,7 +73,8 @@ namespace Inmobiliaria.Models
                     try
                     {
                         resultado = command.ExecuteNonQuery();
-                    } catch (Exception e)
+                    }
+                    catch (Exception e)
                     {
                         Console.WriteLine(e);
                     }
@@ -99,11 +98,12 @@ namespace Inmobiliaria.Models
                     try
                     {
                         resultado = command.ExecuteNonQuery();
-                    } catch (Exception e)
+                    }
+                    catch (Exception e)
                     {
                         Console.WriteLine(e);
                     }
-                    
+
                     connection.Close();
                 }
             }
@@ -128,7 +128,7 @@ namespace Inmobiliaria.Models
                             inquilino = new Inquilino
                             {
                                 IdInquilino = reader.GetInt32(0),
-                                DNI = reader.GetInt32(1),
+                                DNI = reader.GetString(1),
                                 Nombre = reader.GetString(2),
                                 Apellido = reader.GetString(3),
                                 Email = reader.GetString(4),
@@ -138,11 +138,12 @@ namespace Inmobiliaria.Models
                             };
                         }
 
-                    } catch (Exception e)
+                    }
+                    catch (Exception e)
                     {
                         Console.WriteLine(e);
                     }
-                    
+
                     connection.Close();
                 }
             }
@@ -161,25 +162,26 @@ namespace Inmobiliaria.Models
                     connection.Open();
                     try
                     {
-                    var reader = command.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        Inquilino inquilino = new Inquilino
+                        var reader = command.ExecuteReader();
+                        while (reader.Read())
                         {
-                            IdInquilino = reader.GetInt32(0),
-                            DNI = reader.GetInt32(1),
-                            Nombre = reader.GetString(2),
-                            Apellido = reader.GetString(3),
-                            Email = reader.GetString(4),
-                            Telefono = reader.GetString(5),
-                            NombreGarante = reader.GetString(6),
-                            TelefonoGarante = reader.GetString(7),
-                        };
+                            Inquilino inquilino = new Inquilino
+                            {
+                                IdInquilino = reader.GetInt32(0),
+                                DNI = reader.GetString(1),
+                                Nombre = reader.GetString(2),
+                                Apellido = reader.GetString(3),
+                                Email = reader.GetString(4),
+                                Telefono = reader.GetString(5),
+                                NombreGarante = reader.GetString(6),
+                                TelefonoGarante = reader.GetString(7),
+                            };
 
-                        inquilinos.Add(inquilino);
+                            inquilinos.Add(inquilino);
+                        }
+
                     }
-
-                    } catch (Exception e)
+                    catch (Exception e)
                     {
                         Console.WriteLine(e);
                     }

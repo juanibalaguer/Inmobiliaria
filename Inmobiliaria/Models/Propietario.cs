@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Inmobiliaria.Models
 {
@@ -10,7 +6,7 @@ namespace Inmobiliaria.Models
     {
         private int idPropietario;
         private string nombre;
-        private int dni;
+        private string dni;
         private string apellido;
         private string email;
         private string telefono;
@@ -18,7 +14,7 @@ namespace Inmobiliaria.Models
         [Display(Name = "Código")]
         public int IdPropietario { get; set; }
         [Required]
-        public int DNI { get; set; }
+        public string DNI { get; set; }
         [Required]
         public string Nombre { get; set; }
         [Required]

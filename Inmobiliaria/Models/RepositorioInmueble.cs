@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Inmobiliaria.Models
 {
@@ -44,7 +42,7 @@ namespace Inmobiliaria.Models
                         Console.WriteLine(e);
                     }
 
-                    inmueble.IdInmueble= resultado;
+                    inmueble.IdInmueble = resultado;
                     connection.Close();
 
                 }
@@ -136,7 +134,7 @@ namespace Inmobiliaria.Models
                                 Propietario = new Propietario
                                 {
                                     IdPropietario = reader.GetInt32(6),
-                                    DNI = reader.GetInt32(7),
+                                    DNI = reader.GetString(7),
                                     Nombre = reader.GetString(8),
                                     Apellido = reader.GetString(9),
                                 }
@@ -154,8 +152,8 @@ namespace Inmobiliaria.Models
                 return inmueble;
             }
         }
-            
-        
+
+
 
         public List<Inmueble> ObtenerTodos()
         {
@@ -184,7 +182,7 @@ namespace Inmobiliaria.Models
                                 Propietario = new Propietario
                                 {
                                     IdPropietario = reader.GetInt32(6),
-                                    DNI = reader.GetInt32(7),
+                                    DNI = reader.GetString(7),
                                     Nombre = reader.GetString(8),
                                     Apellido = reader.GetString(9),
                                 }

@@ -53,7 +53,7 @@
                 @Html.DisplayFor(modelItem => item.Ambientes)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Precio)
+                @("$"+item.Precio) 
             </td>
             <td>
                 @(item.Propietario.Nombre+" "+item.Propietario.Apellido)

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Data.SqlTypes;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Inmobiliaria.Models
 {
@@ -19,10 +14,10 @@ namespace Inmobiliaria.Models
         private Propietario propietario;
 
         [Key]
-        [Display(Name="Código")]
+        [Display(Name = "Código")]
         public int IdInmueble { get; set; }
         [Required]
-        public string Direccion { get; set;}
+        public string Direccion { get; set; }
         [Required]
         public string Uso { get; set; }
         [Required]
@@ -32,7 +27,7 @@ namespace Inmobiliaria.Models
         [Required]
         public decimal Precio { get; set; }
         [Required]
-        [Display(Name ="Propietario")]
+        [Display(Name = "Propietario")]
         public int IdPropietario { get; set; }
         [Required]
         public Propietario Propietario { get; set; }

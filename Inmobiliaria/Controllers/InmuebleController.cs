@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlTypes;
-using System.Linq;
-using System.Threading.Tasks;
-using Inmobiliaria.Models;
+﻿using Inmobiliaria.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System;
 
 namespace Inmobiliaria.Controllers
 {
@@ -24,6 +20,9 @@ namespace Inmobiliaria.Controllers
         {
             try
             {
+                ViewBag.NuevoId = TempData["NuevoId"];
+                ViewBag.NuevaEntidad = TempData["NuevaEntidad"];
+                ViewBag.MensajeError = TempData["MensajeError"];
                 var inmuebles = repositorioInmueble.ObtenerTodos();
                 return View(inmuebles);
             }
@@ -32,7 +31,7 @@ namespace Inmobiliaria.Controllers
 
                 throw;
             }
-            
+
         }
 
         // GET: InmuebleController/Details/5
@@ -55,8 +54,19 @@ namespace Inmobiliaria.Controllers
         {
             try
             {
-                repositorioInmueble.Create(inmueble);
-                return RedirectToAction(nameof(Index));
+                var resultado = repositorioInmueble.Create(inmueble);
+                if (resultado != -1)
+                {
+                    TempData["NuevoId"] = resultado;
+                    TempData["NuevaEntidad"] = "inmueble";
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    TempData["MensajeError"] = "Hubo un error al crear el inmueble.";
+                    return RedirectToAction(nameof(Index));
+                }
+
             }
             catch
             {
@@ -77,7 +87,7 @@ namespace Inmobiliaria.Controllers
             {
                 throw;
             }
-            
+
         }
 
         // POST: InmuebleController/Edit/5
@@ -103,12 +113,12 @@ namespace Inmobiliaria.Controllers
             {
                 var inmueble = repositorioInmueble.ObtenerPorId(id);
                 return View(inmueble);
-            } 
+            }
             catch (Exception e)
             {
                 throw;
             }
-            
+
         }
 
         // POST: InmuebleController/Delete/5
@@ -118,7 +128,11 @@ namespace Inmobiliaria.Controllers
         {
             try
             {
-                repositorioInmueble.Delete(id);
+                var resultado = repositorioInmueble.Delete(id);
+                if (resultado == -1)
+                {
+                    TempData["MensajeError"] = "El inmueble no pudo ser eliminado. Verifique si está asociado a un contrato.";
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch
