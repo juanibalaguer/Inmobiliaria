@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -10,10 +11,12 @@ namespace Inmobiliaria.Models
     {
         IConfiguration configuration;
         string connectionString;
+        int itemsPorPagina;
         public RepositorioPropietario(IConfiguration configuration)
         {
             this.configuration = configuration;
             this.connectionString = this.configuration["ConnectionStrings:DefaultConnection"];
+            this.itemsPorPagina = Convert.ToInt32(this.configuration["ItemsPorPagina"]);
         }
 
         public int Create(Propietario propietario)
@@ -153,6 +156,72 @@ namespace Inmobiliaria.Models
                     connection.Open();
                     try
                     {
+                        var reader = command.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            Propietario propietario = new Propietario
+                            {
+                                IdPropietario = reader.GetInt32(0),
+                                DNI = reader.GetString(1),
+                                Nombre = reader.GetString(2),
+                                Apellido = reader.GetString(3),
+                                Email = reader.GetString(4),
+                                Telefono = reader.GetString(5),
+                            };
+
+                            propietarios.Add(propietario);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+
+                    connection.Close();
+
+                }
+            }
+            return propietarios;
+        }
+        public int ContarPropietarios()
+        {
+            int nroPropietarios = -1;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = "SELECT COUNT(*) from Propietarios";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    try
+                    {
+                        nroPropietarios = Convert.ToInt32(command.ExecuteScalar());
+                        
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+
+                    connection.Close();
+
+                }
+            }
+            return nroPropietarios;
+        }
+        public List<Propietario> ObtenerTodosPorPagina(int nroPagina)
+        {
+            List<Propietario> propietarios = new List<Propietario>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = "SELECT Id, DNI, Nombre, Apellido, Email, Telefono " +
+                    "from Propietarios ORDER BY  Apellido, Nombre OFFSET @nroPagina ROWS FETCH FIRST @items ROWS ONLY";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    try
+                    {
+                        command.Parameters.Add("@nroPagina", SqlDbType.Int).Value = nroPagina * itemsPorPagina;
+                        command.Parameters.Add("@items", SqlDbType.Int).Value = itemsPorPagina;
                         var reader = command.ExecuteReader();
                         while (reader.Read())
                         {

@@ -156,12 +156,54 @@ namespace Inmobiliaria.Models
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 string sql = "SELECT Id, DNI, Nombre, Apellido, Email, Telefono, NombreGarante, TelefonoGarante " +
-                "from Inquilinos";
+                "FROM Inquilinos ORDER BY  Apellido, Nombre" ;
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();
                     try
                     {
+                        var reader = command.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            Inquilino inquilino = new Inquilino
+                            {
+                                IdInquilino = reader.GetInt32(0),
+                                DNI = reader.GetString(1),
+                                Nombre = reader.GetString(2),
+                                Apellido = reader.GetString(3),
+                                Email = reader.GetString(4),
+                                Telefono = reader.GetString(5),
+                                NombreGarante = reader.GetString(6),
+                                TelefonoGarante = reader.GetString(7),
+                            };
+
+                            inquilinos.Add(inquilino);
+                        }
+
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+                    connection.Close();
+
+                }
+            }
+            return inquilinos;
+        }
+        public List<Inquilino> ObtenerTodosPorPagina(int nroPagina)
+        {
+            List<Inquilino> inquilinos = new List<Inquilino>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = "SELECT Id, DNI, Nombre, Apellido, Email, Telefono, NombreGarante, TelefonoGarante " +
+                "FROM Inquilinos ORDER BY  Apellido, Nombre OFFSET @nroPagina ROWS FETCH FIRST 1 ROWS ONLY";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    try
+                    {
+                        command.Parameters.Add("@nroPagina", SqlDbType.Int).Value = nroPagina;
                         var reader = command.ExecuteReader();
                         while (reader.Read())
                         {

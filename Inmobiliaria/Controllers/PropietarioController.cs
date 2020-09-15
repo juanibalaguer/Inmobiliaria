@@ -8,20 +8,30 @@ namespace Inmobiliaria.Controllers
     public class PropietarioController : Controller
     {
         RepositorioPropietario repositorioPropietario;
+        int itemsPorPagina;
         public PropietarioController(IConfiguration iconfiguration)
         {
             repositorioPropietario = new RepositorioPropietario(iconfiguration);
+            itemsPorPagina = Convert.ToInt32(iconfiguration["ItemsPorPagina"]);
+
         }
         // GET: PropietarioController
-        public ActionResult Index()
+        public ActionResult Index(int pagina)
         {
             try
             {
-
+                int nroPropietarios = repositorioPropietario.ContarPropietarios();
+                if(nroPropietarios % itemsPorPagina != 0)
+                {
+                    ViewBag.NumeroPaginas = 1 + nroPropietarios / itemsPorPagina;
+                } else
+                {
+                    ViewBag.NumeroPaginas = nroPropietarios / itemsPorPagina;
+                }
                 ViewBag.NuevoId = TempData["NuevoId"];
                 ViewBag.NuevaEntidad = TempData["NuevaEntidad"];
                 ViewBag.MensajeError = TempData["MensajeError"];
-                var propietarios = repositorioPropietario.ObtenerTodos();
+                var propietarios = repositorioPropietario.ObtenerTodosPorPagina(pagina);
                 return View(propietarios);
 
             }

@@ -14,14 +14,14 @@ namespace Inmobiliaria.Controllers
             repositorioInquilino = new RepositorioInquilino(iconfiguration);
         }
         // GET: InquilinoController
-        public ActionResult Index()
+        public ActionResult Index(int pagina)
         {
             try
             {
                 ViewBag.NuevoId = TempData["NuevoId"];
                 ViewBag.NuevaEntidad = TempData["NuevaEntidad"];
                 ViewBag.MensajeError = TempData["MensajeError"];
-                var inquilinos = repositorioInquilino.ObtenerTodos();
+                var inquilinos = repositorioInquilino.ObtenerTodosPorPagina(pagina);
                 return View(inquilinos);
             }
             catch (Exception e)

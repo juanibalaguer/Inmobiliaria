@@ -46,6 +46,9 @@ namespace Inmobiliaria
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                    name: "Paginado",
+                    pattern: "{controller=Home}/{action=Index}/pagina/{pagina?}");
             });
         }
     }

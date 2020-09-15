@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 
+//Paginacion y buscador en lista
+
 namespace Inmobiliaria.Controllers
 {
     public class ContratoController : Controller
@@ -20,11 +22,19 @@ namespace Inmobiliaria.Controllers
         // GET: ContratoController
         public ActionResult Index()
         {
-            ViewBag.NuevoId = TempData["NuevoId"];
-            ViewBag.NuevaEntidad = TempData["NuevaEntidad"];
-            ViewBag.MensajeError = TempData["MensajeError"];
-            var contratos = repositorioContrato.ObtenerTodos();
-            return View(contratos);
+            try
+            {
+                ViewBag.NuevoId = TempData["NuevoId"];
+                ViewBag.NuevaEntidad = TempData["NuevaEntidad"];
+                ViewBag.MensajeError = TempData["MensajeError"];
+                var contratos = repositorioContrato.ObtenerTodos();
+                return View(contratos);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            
         }
 
         // GET: ContratoController/Details/5
@@ -36,12 +46,20 @@ namespace Inmobiliaria.Controllers
         // GET: ContratoController/Create
         public ActionResult Create()
         {
-            ViewBag.inquilinos = repositorioInquilino.ObtenerTodos();
-            ViewBag.inmuebles = repositorioInmueble.ObtenerTodos();
-            ViewBag.ErrorDeFecha = TempData["ErrorDeFecha"];
-            return View();
+            try
+            {
+                ViewBag.inquilinos = repositorioInquilino.ObtenerTodos();
+                ViewBag.inmuebles = repositorioInmueble.ObtenerTodos();
+                ViewBag.ErrorDeFecha = TempData["ErrorDeFecha"];
+                return View();
+            } 
+            catch (Exception e)
+            {
+                throw;
+            }
+            
         }
-
+        //Traer $ del inmueble para plasmar en el contrato
         // POST: ContratoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -51,15 +69,18 @@ namespace Inmobiliaria.Controllers
             {
                 if (contrato.FechaFin < contrato.FechaInicio)
                 {
-                    TempData["ErrorDeFecha"] = "Ingrese un par de fechas válidas";
+                    ViewBag.ErrorDeFecha = "Ingrese un par de fechas válidas";
                     // Falta implementar alguna manera para que se conserven los otros datos del formulario
-                    return RedirectToAction(nameof(Create));
+                    ViewBag.inquilinos = repositorioInquilino.ObtenerTodos();
+                    ViewBag.inmuebles = repositorioInmueble.ObtenerTodos();
+                    return View(contrato);
                 }
                 var resultado = repositorioContrato.Create(contrato);
                 if (resultado != -1)
                 {
                     TempData["NuevoId"] = resultado;
                     TempData["NuevaEntidad"] = "contrato";
+
                     return RedirectToAction(nameof(Index));
                 }
                 else

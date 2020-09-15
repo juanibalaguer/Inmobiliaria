@@ -50,12 +50,12 @@ namespace Inmobiliaria.Models
             return resultado;
         }
         public int Edit(int id, Contrato contrato)
-        {
+            {
             int resultado = -1;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 string sql = "UPDATE Contratos SET FechaInicio = @fechaInicio, FechaFin = @fechaFin, MontoAlquiler = @montoAlquiler, " +
-                    "IdInquilino = @idInquilino, IdInmueble = @idInmuele WHERE Id = @id";
+                    "IdInquilino = @idInquilino, IdInmueble = @idInmueble WHERE Id = @id";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.Parameters.AddWithValue("@fechaInicio", contrato.FechaInicio);
