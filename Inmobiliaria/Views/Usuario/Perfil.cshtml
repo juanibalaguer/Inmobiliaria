@@ -1,0 +1,22 @@
+﻿@model Inmobiliaria.Models.Usuario
+
+@{
+    ViewData["Title"] = "Perfil";
+}
+
+<h1>Perfil</h1>
+
+<hr/>
+
+    <div class="card text-center mx-auto" style="width: 18rem;">
+        <img src="@Model.AvatarUrl" class="card-img-top" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">@Model.NombreRol()</h5>
+            <p class="card-text">@Model.IdUsuario</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">@(Model.Nombre + " " + Model.Apellido)</li>
+            <li class="list-group-item">@Model.Email</li>
+        </ul>
+    </div>
+

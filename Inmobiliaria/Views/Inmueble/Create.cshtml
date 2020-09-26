@@ -38,13 +38,15 @@
             <div class="form-group">
                 <label class="control-label">Propietario</label>
                 <select class="form-control" name="IdPropietario">
-                    @foreach(var propietario in (List<Propietario>)ViewBag.propietarios)
+                    @foreach (var propietario in (List<Propietario>)ViewBag.propietarios)
                     {
                         <option value="@propietario.IdPropietario">@(propietario.Nombre +" "+ propietario.Apellido)</option>
                     }
                 </select>
                 <span asp-validation-for="IdPropietario" class="text-danger"></span>
             </div>
+            @Html.RadioButtonFor(model => model.Estado, true) Disponible
+            @Html.RadioButtonFor(model => model.Estado, false) No disponible
             <div class="form-group">
                 <input type="submit" value="Guardar" class="btn btn-primary" />
             </div>

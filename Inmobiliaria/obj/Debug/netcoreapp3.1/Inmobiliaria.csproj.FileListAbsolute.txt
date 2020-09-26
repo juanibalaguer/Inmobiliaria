@@ -134,3 +134,12 @@ C:\Users\garba\Desktop\Tecnicatura en Desarrollo de Software\.NET\Inmobiliaria\I
 C:\Users\garba\Desktop\Tecnicatura en Desarrollo de Software\.NET\Inmobiliaria\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Pago\Create.cshtml.g.cs
 C:\Users\garba\Desktop\Tecnicatura en Desarrollo de Software\.NET\Inmobiliaria\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Pago\Edit.cshtml.g.cs
 C:\Users\garba\Desktop\Tecnicatura en Desarrollo de Software\.NET\Inmobiliaria\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Pago\Delete.cshtml.g.cs
+C:\Users\garba\Desktop\Tecnicatura en Desarrollo de Software\.NET\Inmobiliaria\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Usuario\Index.cshtml.g.cs
+C:\Users\garba\Desktop\Tecnicatura en Desarrollo de Software\.NET\Inmobiliaria\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Usuario\Create.cshtml.g.cs
+C:\Users\garba\Desktop\Tecnicatura en Desarrollo de Software\.NET\Inmobiliaria\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Usuario\Login.cshtml.g.cs
+C:\Users\garba\Desktop\Tecnicatura en Desarrollo de Software\.NET\Inmobiliaria\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Usuario\Edit.cshtml.g.cs
+C:\Users\garba\Desktop\Tecnicatura en Desarrollo de Software\.NET\Inmobiliaria\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Usuario\Delete.cshtml.g.cs
+C:\Users\garba\Desktop\Tecnicatura en Desarrollo de Software\.NET\Inmobiliaria\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Login.cshtml.g.cs
+C:\Users\garba\Desktop\Tecnicatura en Desarrollo de Software\.NET\Inmobiliaria\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_LogoutModal.cshtml.g.cs
+C:\Users\garba\Desktop\Tecnicatura en Desarrollo de Software\.NET\Inmobiliaria\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Usuario\Perfil.cshtml.g.cs
+C:\Users\garba\Desktop\Tecnicatura en Desarrollo de Software\.NET\Inmobiliaria\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Home\Restringido.cshtml.g.cs

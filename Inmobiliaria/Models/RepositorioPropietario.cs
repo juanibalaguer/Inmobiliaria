@@ -1,21 +1,17 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 
 namespace Inmobiliaria.Models
 {
-    public class RepositorioPropietario
+    public class RepositorioPropietario : Repositorio, IRepositorio<Propietario>
     {
-        IConfiguration configuration;
-        string connectionString;
+
         int itemsPorPagina;
-        public RepositorioPropietario(IConfiguration configuration)
+        public RepositorioPropietario(IConfiguration iconfiguration) : base(iconfiguration)
         {
-            this.configuration = configuration;
-            this.connectionString = this.configuration["ConnectionStrings:DefaultConnection"];
             this.itemsPorPagina = Convert.ToInt32(this.configuration["ItemsPorPagina"]);
         }
 
@@ -195,7 +191,7 @@ namespace Inmobiliaria.Models
                     try
                     {
                         nroPropietarios = Convert.ToInt32(command.ExecuteScalar());
-                        
+
                     }
                     catch (Exception e)
                     {

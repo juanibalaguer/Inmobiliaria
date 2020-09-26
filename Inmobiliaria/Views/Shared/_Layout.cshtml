@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Inmobiliaria</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
 </head>
 <body>
     <header>
@@ -16,26 +17,55 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Propietario" asp-action="Index">Propietarios</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Inquilino" asp-action="Index">Inquilinos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Inmueble" asp-action="Index">Inmuebles</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Contrato" asp-action="Index">Contratos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Pago" asp-action="Index">Pagos</a>
-                        </li>
-                    </ul>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Propietario" asp-action="Index">Propietarios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Inquilino" asp-action="Index">Inquilinos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Inmueble" asp-action="Index">Inmuebles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Contrato" asp-action="Index">Contratos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Pago" asp-action="Index">Pagos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Index">Usuarios</a>
+                    </li>
+                </ul>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            @if (!String.IsNullOrEmpty(User.Claims.ElementAt(3).Value))
+                            {
+                                <img src="@User.Claims.ElementAt(3).Value" width="32" />
+                            }
+                            @(User.Claims.ElementAt(1).Value)
+                        </a>
+                        <div class="dropdown-menu " aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" asp-controller="Usuario" asp-action="Perfil">Perfil</a>
+                            <button type="button" class="dropdown-item" onclick="modalLogout()">Log out</button>
+                        </div>
+                    </li>
+                </ul>
+                    }
+                       else
+                       {
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown">
+                       <a class="dropdown-item" asp-controller="Usuario" asp-action="Login">Iniciar sesión</a>
+                    </li>
+                </ul>
+                       } 
+
+
                 </div>
-            </div>
         </nav>
     </header>
     <div class="container">
@@ -70,6 +100,30 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        function modalLogout() {
+            var modal = document.getElementById("logout_modal");
+			var abrirModal = () => {//función flecha
+				//modales: https://getbootstrap.com/docs/4.0/components/modal/
+                $('#logout_modal').modal("show");
+			}
+			if (!modal) {
+				$.ajax({
+					url: `@Url.Action("LogoutModal", "Usuario")`,
+				}).done(res => {
+					var div = document.createElement("div");
+					div.innerHTML = res;
+					document.body.appendChild(div);
+					abrirModal();
+				}).fail(res => {
+					console.log("Error: ", res);
+				});
+			} else {
+				abrirModal();
+			}
+		}
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+

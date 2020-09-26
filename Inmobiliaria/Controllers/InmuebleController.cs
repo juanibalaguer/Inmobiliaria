@@ -1,4 +1,5 @@
 ﻿using Inmobiliaria.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -15,7 +16,9 @@ namespace Inmobiliaria.Controllers
             repositorioInmueble = new RepositorioInmueble(iconfiguration);
             repositorioPropietario = new RepositorioPropietario(iconfiguration);
         }
+
         // GET: InmuebleController
+        [Authorize]
         public ActionResult Index()
         {
             try
@@ -41,6 +44,7 @@ namespace Inmobiliaria.Controllers
         }
 
         // GET: InmuebleController/Create
+        [Authorize]
         public ActionResult Create()
         {
             ViewBag.propietarios = repositorioPropietario.ObtenerTodos();
@@ -50,6 +54,7 @@ namespace Inmobiliaria.Controllers
         // POST: InmuebleController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create(Inmueble inmueble)
         {
             try
@@ -68,13 +73,14 @@ namespace Inmobiliaria.Controllers
                 }
 
             }
-            catch
+            catch (Exception e)
             {
                 return View();
             }
         }
 
         // GET: InmuebleController/Edit/5
+        [Authorize]
         public ActionResult Edit(int id)
         {
             try
@@ -93,6 +99,7 @@ namespace Inmobiliaria.Controllers
         // POST: InmuebleController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit(int id, Inmueble inmueble)
         {
             try
@@ -100,13 +107,14 @@ namespace Inmobiliaria.Controllers
                 repositorioInmueble.Edit(id, inmueble);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception e)
             {
                 return View();
             }
         }
 
         // GET: InmuebleController/Delete/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
             try
@@ -124,6 +132,7 @@ namespace Inmobiliaria.Controllers
         // POST: InmuebleController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id, IFormCollection collection)
         {
             try
@@ -135,7 +144,7 @@ namespace Inmobiliaria.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception e)
             {
                 return View();
             }

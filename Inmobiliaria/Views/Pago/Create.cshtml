@@ -1,7 +1,7 @@
 ﻿@model Inmobiliaria.Models.Pago
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Nuevo pago";
 }
 
 
@@ -9,7 +9,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" >
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Numero" class="control-label"></label>
@@ -18,26 +18,26 @@
             </div>
             <div class="form-group">
                 <label asp-for="IdContrato" class="control-label"></label>
-                <select class="form-control" name="IdContrato">
+                <select asp-for="IdContrato" class="form-control" name="IdContrato" onchange="modificarImporte()" id="contrato">
                     @foreach (var contrato in (List<Contrato>)ViewBag.contratos)
                     {
-                    <option value="@contrato.IdContrato"> @("Contrato Nº " + contrato.IdContrato + ", inmueble en "+ contrato.Inmueble.Direccion)</option>
+                    <option montoAlquiler="@contrato.MontoAlquiler" value="@contrato.IdContrato"> @("Contrato Nº " + contrato.IdContrato + ", inmueble en "+ contrato.Inmueble.Direccion)</option>
                     }
                 </select>
                 <span asp-validation-for="IdContrato" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Importe" class="control-label"></label>
-                <input asp-for="Importe" class="form-control" />
+                <input asp-for="Importe" class="form-control" id="importe"/>
                 <span asp-validation-for="Importe" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FechaDePago" class="control-label"></label>
-                <input value="@DateTime.Now" asp-for="FechaDePago" class="form-control" />
+                <input value="@DateTime.Now" asp-for="FechaDePago" class="form-control" type="date"/>
                 <span asp-validation-for="FechaDePago" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Registrar pago" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -46,7 +46,14 @@
 <div>
     <a asp-action="Index">Volver al índice</a>
 </div>
-
+<script type="text/javascript">
+    function modificarImporte() {
+        inputImporte = document.getElementById("importe");
+        importe = $("#contrato").find(':selected').attr('montoAlquiler');
+        inputImporte.value = importe;
+    }
+    window.onload = modificarImporte();
+</script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

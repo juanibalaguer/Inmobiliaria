@@ -46,6 +46,8 @@
                 </select>
                 <span asp-validation-for="IdPropietario" class="text-danger"></span>
             </div>
+            @Html.RadioButtonFor(model => model.Estado, true) Disponible
+            @Html.RadioButtonFor(model => model.Estado, false) No disponible
             <div class="form-group">
                 <input type="submit" value="Guardar cambios" class="btn btn-primary" />
             </div>

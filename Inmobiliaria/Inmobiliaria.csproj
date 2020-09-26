@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
+    <Folder Include="NewFolder\" />
     <Folder Include="Properties\NewFolder\" />
   </ItemGroup>
 

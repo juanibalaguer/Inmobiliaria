@@ -3,19 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Inmobiliaria.Models
 {
-    public class RepositorioPago
+    public class RepositorioPago : Repositorio, IRepositorio<Pago>
     {
-        IConfiguration configuration;
-        string connectionString;
-        public RepositorioPago(IConfiguration configuration)
+
+        public RepositorioPago(IConfiguration iconfiguration) : base(iconfiguration)
         {
-            this.configuration = configuration;
-            this.connectionString = this.configuration["ConnectionStrings:DefaultConnection"];
+
         }
 
         public int Create(Pago pago)
@@ -109,7 +105,8 @@ namespace Inmobiliaria.Models
             Pago pago = null;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sql = "SELECT Id, Numero, IdContrato, Importe, FechaDePago FROM Pagos WHERE Id = @id";
+                string sql = "SELECT Pagos.Id, Numero, IdContrato, Importe, FechaDePago, MontoAlquiler " +
+                    "FROM Pagos INNER JOIN Contratos on IdContrato = Contratos.Id WHERE Pagos.Id = @id";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.Parameters.Add("@id", SqlDbType.Int).Value = id;
@@ -126,6 +123,10 @@ namespace Inmobiliaria.Models
                                 IdContrato = reader.GetInt32(2),
                                 Importe = reader.GetDecimal(3),
                                 FechaDePago = reader.GetDateTime(4),
+                                Contrato = new Contrato
+                                {
+                                    MontoAlquiler = reader.GetDecimal(5),
+                                }
 
                             };
 
@@ -149,7 +150,8 @@ namespace Inmobiliaria.Models
             List<Pago> pagos = new List<Pago>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sql = "SELECT Id, Numero, IdContrato, Importe, FechaDePago FROM Pagos";
+                string sql = "SELECT Pagos.Id, Numero, IdContrato, Importe, FechaDePago, MontoAlquiler " +
+                    "FROM Pagos INNER JOIN Contratos on IdContrato = Contratos.Id";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();
@@ -165,6 +167,10 @@ namespace Inmobiliaria.Models
                                 IdContrato = reader.GetInt32(2),
                                 Importe = reader.GetDecimal(3),
                                 FechaDePago = reader.GetDateTime(4),
+                                Contrato = new Contrato
+                                {
+                                    MontoAlquiler = reader.GetDecimal(5),
+                                }
 
                             };
 

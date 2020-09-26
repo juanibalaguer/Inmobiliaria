@@ -6,14 +6,12 @@ using System.Data.SqlClient;
 
 namespace Inmobiliaria.Models
 {
-    public class RepositorioContrato
+    public class RepositorioContrato : Repositorio, IRepositorio<Contrato>
     {
-        IConfiguration configuration;
-        string connectionString;
-        public RepositorioContrato(IConfiguration configuration)
+
+        public RepositorioContrato(IConfiguration iconfiguration) : base(iconfiguration)
         {
-            this.configuration = configuration;
-            this.connectionString = this.configuration["ConnectionStrings:DefaultConnection"];
+
         }
 
         public int Create(Contrato contrato)
@@ -50,7 +48,7 @@ namespace Inmobiliaria.Models
             return resultado;
         }
         public int Edit(int id, Contrato contrato)
-            {
+        {
             int resultado = -1;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -213,5 +211,58 @@ namespace Inmobiliaria.Models
             }
             return contratos;
         }
+        public Contrato ObtenerPorInmueble(int id)
+        {
+            Contrato contrato = null;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = "SELECT c.Id, FechaInicio, FechaFin, MontoAlquiler, IdInquilino, IdInmueble," +
+                    " DNI, Nombre, Apellido, Direccion " +
+                    "from Contratos c INNER JOIN Inquilinos i ON c.IdInquilino = i.Id " +
+                    "INNER JOIN Inmuebles inm ON c.IdInmueble = inm.Id WHERE IdInmueble = @id";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.Parameters.Add("@id", SqlDbType.Int).Value = id;
+                    connection.Open();
+                    try
+                    {
+                        var reader = command.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            contrato = new Contrato
+                            {
+                                IdContrato = reader.GetInt32(0),
+                                FechaInicio = reader.GetDateTime(1),
+                                FechaFin = reader.GetDateTime(2),
+                                MontoAlquiler = reader.GetDecimal(3),
+                                IdInquilino = reader.GetInt32(4),
+                                IdInmueble = reader.GetInt32(5),
+                                Inquilino = new Inquilino
+                                {
+                                    IdInquilino = reader.GetInt32(4),
+                                    DNI = reader.GetString(6),
+                                    Nombre = reader.GetString(7),
+                                    Apellido = reader.GetString(8),
+                                },
+                                Inmueble = new Inmueble
+                                {
+                                    IdInmueble = reader.GetInt32(5),
+                                    Direccion = reader.GetString(9),
+                                }
+                            };
+
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+
+                    connection.Close();
+                }
+                return contrato;
+            }
+        }
     }
+
 }

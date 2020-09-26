@@ -1,4 +1,5 @@
 ﻿using Inmobiliaria.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +15,7 @@ namespace Inmobiliaria.Controllers
             repositorioInquilino = new RepositorioInquilino(iconfiguration);
         }
         // GET: InquilinoController
+        [Authorize]
         public ActionResult Index(int pagina)
         {
             try
@@ -38,6 +40,7 @@ namespace Inmobiliaria.Controllers
         }
 
         // GET: InquilinoController/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -46,6 +49,7 @@ namespace Inmobiliaria.Controllers
         // POST: InquilinoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create(Inquilino inquilino)
         {
             try
@@ -70,6 +74,7 @@ namespace Inmobiliaria.Controllers
         }
 
         // GET: InquilinoController/Edit/5
+        [Authorize]
         public ActionResult Edit(int id)
         {
             try
@@ -87,6 +92,7 @@ namespace Inmobiliaria.Controllers
         // POST: InquilinoController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit(int id, Inquilino inquilino)
         {
             try
@@ -101,6 +107,7 @@ namespace Inmobiliaria.Controllers
         }
 
         // GET: InquilinoController/Delete/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
             try
@@ -118,6 +125,7 @@ namespace Inmobiliaria.Controllers
         // POST: InquilinoController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id, IFormCollection collection)
         {
             try

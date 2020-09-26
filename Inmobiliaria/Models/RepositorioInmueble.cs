@@ -6,14 +6,11 @@ using System.Data.SqlClient;
 
 namespace Inmobiliaria.Models
 {
-    public class RepositorioInmueble
+    public class RepositorioInmueble : Repositorio, IRepositorio<Inmueble>
     {
-        IConfiguration configuration;
-        string connectionString;
-        public RepositorioInmueble(IConfiguration configuration)
+        public RepositorioInmueble(IConfiguration iconfiguration) : base(iconfiguration)
         {
-            this.configuration = configuration;
-            this.connectionString = this.configuration["ConnectionStrings:DefaultConnection"];
+
         }
 
         public int Create(Inmueble inmueble)
@@ -22,7 +19,7 @@ namespace Inmobiliaria.Models
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 string sql = "INSERT INTO Inmuebles(Direccion, Uso, Tipo, Ambientes, Precio," +
-                    "IdPropietario) VALUES (@direccion, @uso, @tipo, @ambientes, @precio,@idPropietario);" +
+                    "IdPropietario, Estado) VALUES (@direccion, @uso, @tipo, @ambientes, @precio,@idPropietario, @estado);" +
                     "SELECT SCOPE_IDENTITY()";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
@@ -32,6 +29,7 @@ namespace Inmobiliaria.Models
                     command.Parameters.AddWithValue("@ambientes", inmueble.Ambientes);
                     command.Parameters.AddWithValue("@precio", inmueble.Precio);
                     command.Parameters.AddWithValue("@idPropietario", inmueble.IdPropietario);
+                    command.Parameters.AddWithValue("@estado", inmueble.Estado);
                     connection.Open();
                     try
                     {
@@ -56,7 +54,7 @@ namespace Inmobiliaria.Models
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 string sql = "UPDATE Inmuebles SET Direccion = @direccion, Uso = @uso, Tipo = @tipo, " +
-                    "Ambientes = @ambientes, Precio = @precio, IdPropietario = @idPropietario WHERE Id = @id";
+                    "Ambientes = @ambientes, Precio = @precio, IdPropietario = @idPropietario, Estado = @estado WHERE Id = @id";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.Parameters.AddWithValue("@direccion", inmueble.Direccion);
@@ -66,6 +64,7 @@ namespace Inmobiliaria.Models
                     command.Parameters.AddWithValue("@precio", inmueble.Precio);
                     command.Parameters.AddWithValue("@idPropietario", inmueble.IdPropietario);
                     command.Parameters.AddWithValue("@id", id);
+                    command.Parameters.AddWithValue("@estado", inmueble.Estado);
                     connection.Open();
                     try
                     {
@@ -112,7 +111,7 @@ namespace Inmobiliaria.Models
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 string sql = "SELECT i.Id,Direccion, Uso, Tipo, Ambientes, Precio, IdPropietario, DNI, p.Nombre," +
-                    " p.Apellido from Inmuebles i INNER JOIN Propietarios p ON i.IdPropietario = p.Id WHERE i.Id = @id";
+                    " p.Apellido, Estado from Inmuebles i INNER JOIN Propietarios p ON i.IdPropietario = p.Id WHERE i.Id = @id";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.Parameters.Add("@id", SqlDbType.Int).Value = id;
@@ -137,7 +136,8 @@ namespace Inmobiliaria.Models
                                     DNI = reader.GetString(7),
                                     Nombre = reader.GetString(8),
                                     Apellido = reader.GetString(9),
-                                }
+                                },
+                                Estado = reader.GetByte(10) == 1 ? true : false,
                             };
 
                         }
@@ -161,7 +161,7 @@ namespace Inmobiliaria.Models
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 string sql = "SELECT i.Id,Direccion, Uso, Tipo, Ambientes, Precio, IdPropietario, DNI, p.Nombre," +
-                    " p.Apellido from Inmuebles i INNER JOIN Propietarios p ON i.IdPropietario = p.Id";
+                    " p.Apellido, Estado from Inmuebles i INNER JOIN Propietarios p ON i.IdPropietario = p.Id";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();
@@ -185,7 +185,8 @@ namespace Inmobiliaria.Models
                                     DNI = reader.GetString(7),
                                     Nombre = reader.GetString(8),
                                     Apellido = reader.GetString(9),
-                                }
+                                },
+                                Estado = reader.GetByte(10) == 1 ? true : false,
                             };
 
                             inmuebles.Add(inmueble);

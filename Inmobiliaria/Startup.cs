@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Security.Claims;
 
 namespace Inmobiliaria
 {
@@ -18,6 +20,20 @@ namespace Inmobiliaria
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/login";
+                    options.LogoutPath = "/logout";
+                    options.AccessDeniedPath = "/Home/Restringido";
+                });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Administrador", policy =>
+                    policy.RequireClaim(ClaimTypes.Role, "Administrador"));
+                options.AddPolicy("Empleado", policy =>
+                    policy.RequireClaim(ClaimTypes.Role, "Empleado"));
+            });
             services.AddControllersWithViews();
         }
 
@@ -36,11 +52,9 @@ namespace Inmobiliaria
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -49,6 +63,13 @@ namespace Inmobiliaria
                 endpoints.MapControllerRoute(
                     name: "Paginado",
                     pattern: "{controller=Home}/{action=Index}/pagina/{pagina?}");
+                endpoints.MapControllerRoute(
+                    name: "login",
+                    pattern: "login/{**accion}",
+                    new { controller = "Usuario", action = "Login" });
+                endpoints.MapControllerRoute(
+                   name: "Restringido",
+                   pattern: "{controller=Home}/restringido");
             });
         }
     }

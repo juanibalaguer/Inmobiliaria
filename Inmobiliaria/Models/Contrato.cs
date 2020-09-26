@@ -19,9 +19,11 @@ namespace Inmobiliaria.Models
         public int IdContrato { get; set; }
         [Required]
         [Display(Name = "Fecha de inicio")]
+        [DataType(DataType.Date)]
         public DateTime FechaInicio { get; set; }
         [Required]
         [Display(Name = "Fecha de finalización")]
+        [DataType(DataType.Date)]
         public DateTime FechaFin { get; set; }
         [Required]
         [Display(Name = "Alquiler mensual")]

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Inmobiliaria.Models
 {
@@ -22,14 +19,16 @@ namespace Inmobiliaria.Models
         [Display(Name = "Número")]
         public int Numero { get; set; }
         [Required]
+        [Display (Name ="Código contrato")]
         public int IdContrato { get; set; }
         [Required]
         public Contrato Contrato { get; set; }
         [Required]
-        public decimal Importe{ get; set; }
+        public decimal Importe { get; set; }
         [Required]
-        [Display(Name ="Fecha de pago")]
+        [Display(Name = "Fecha de pago")]
+        [DataType(DataType.Date)]
         public DateTime FechaDePago { get; set; }
-       
+
     }
 }

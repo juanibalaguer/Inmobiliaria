@@ -1,14 +1,13 @@
 ﻿@model Inmobiliaria.Models.Pago
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar pago";
 }
 
-<h1>Delete</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>¿Seguro de eliminar el siguiente pago?</h3>
 <div>
-    <h4>Pago</h4>
+    <h4>Información del pago</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -43,8 +42,8 @@
         </dd>
     </dl>
     
-    <form asp-action="Delete">
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+    <form asp-action="Eliminar">
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+        <a asp-action="Index">Volver al índice </a>
     </form>
 </div>

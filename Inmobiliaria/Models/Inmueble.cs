@@ -12,6 +12,7 @@ namespace Inmobiliaria.Models
         private decimal precio;
         private int idPropietario;
         private Propietario propietario;
+        private bool estado;
 
         [Key]
         [Display(Name = "Código")]
@@ -25,12 +26,15 @@ namespace Inmobiliaria.Models
         [Required]
         public int Ambientes { get; set; }
         [Required]
+        [DataType(DataType.Currency)]
         public decimal Precio { get; set; }
         [Required]
         [Display(Name = "Propietario")]
         public int IdPropietario { get; set; }
         [Required]
         public Propietario Propietario { get; set; }
+        [Required]
+        public bool Estado { get; set; }
 
 
     }

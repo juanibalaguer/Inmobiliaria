@@ -6,14 +6,12 @@ using System.Data.SqlClient;
 
 namespace Inmobiliaria.Models
 {
-    public class RepositorioInquilino
+    public class RepositorioInquilino : Repositorio, IRepositorio<Inquilino>
     {
-        IConfiguration configuration;
-        string connectionString;
-        public RepositorioInquilino(IConfiguration configuration)
+
+        public RepositorioInquilino(IConfiguration iconfiguration) : base(iconfiguration)
         {
-            this.configuration = configuration;
-            this.connectionString = this.configuration["ConnectionStrings:DefaultConnection"];
+
         }
 
         public int Create(Inquilino inquilino)
@@ -156,7 +154,7 @@ namespace Inmobiliaria.Models
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 string sql = "SELECT Id, DNI, Nombre, Apellido, Email, Telefono, NombreGarante, TelefonoGarante " +
-                "FROM Inquilinos ORDER BY  Apellido, Nombre" ;
+                "FROM Inquilinos ORDER BY  Apellido, Nombre";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();

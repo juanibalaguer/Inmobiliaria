@@ -1,4 +1,5 @@
 ﻿using Inmobiliaria.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -16,15 +17,17 @@ namespace Inmobiliaria.Controllers
 
         }
         // GET: PropietarioController
+        [Authorize]
         public ActionResult Index(int pagina)
         {
             try
             {
                 int nroPropietarios = repositorioPropietario.ContarPropietarios();
-                if(nroPropietarios % itemsPorPagina != 0)
+                if (nroPropietarios % itemsPorPagina != 0)
                 {
                     ViewBag.NumeroPaginas = 1 + nroPropietarios / itemsPorPagina;
-                } else
+                }
+                else
                 {
                     ViewBag.NumeroPaginas = nroPropietarios / itemsPorPagina;
                 }
@@ -48,14 +51,17 @@ namespace Inmobiliaria.Controllers
         }
 
         // GET: PropietarioController/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
         }
 
         // POST: PropietarioController/Create
+
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create(Propietario propietario)
         {
             try
@@ -81,6 +87,7 @@ namespace Inmobiliaria.Controllers
         }
 
         // GET: PropietarioController/Edit/5
+        [Authorize]
         public ActionResult Edit(int id)
         {
             try
@@ -98,6 +105,7 @@ namespace Inmobiliaria.Controllers
         // POST: PropietarioController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit(int id, Propietario propietario)
         {
             try
@@ -112,16 +120,25 @@ namespace Inmobiliaria.Controllers
         }
 
         // GET: PropietarioController/Delete/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
-            Propietario propietario = repositorioPropietario.ObtenerPorId(id);
-            return View(propietario);
+            try
+            {
+                Propietario propietario = repositorioPropietario.ObtenerPorId(id);
+                return View(propietario);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
 
         }
 
         // POST: PropietarioController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id, Propietario propietario)
         {
             try

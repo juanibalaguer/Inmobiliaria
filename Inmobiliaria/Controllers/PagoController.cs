@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Inmobiliaria.Models;
+﻿using Inmobiliaria.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System;
 
 namespace Inmobiliaria.Controllers
 {
@@ -19,6 +17,7 @@ namespace Inmobiliaria.Controllers
             repositorioContrato = new RepositorioContrato(iconfiguration);
         }
         // GET: PagoController
+        [Authorize]
         public ActionResult Index()
         {
             try
@@ -28,7 +27,8 @@ namespace Inmobiliaria.Controllers
                 ViewBag.MensajeError = TempData["MensajeError"];
                 var contratos = repositorioPago.ObtenerTodos();
                 return View(contratos);
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 throw;
             }
@@ -41,6 +41,7 @@ namespace Inmobiliaria.Controllers
         }
 
         // GET: PagoController/Create
+        [Authorize]
         public ActionResult Create()
         {
             try
@@ -57,6 +58,7 @@ namespace Inmobiliaria.Controllers
         // POST: PagoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create(Pago pago)
         {
             try
@@ -81,6 +83,7 @@ namespace Inmobiliaria.Controllers
         }
 
         // GET: PagoController/Edit/5
+        [Authorize]
         public ActionResult Edit(int id)
         {
             try
@@ -88,17 +91,18 @@ namespace Inmobiliaria.Controllers
                 ViewBag.contratos = repositorioContrato.ObtenerTodos();
                 var pago = repositorioPago.ObtenerPorId(id);
                 return View(pago);
-            } 
+            }
             catch (Exception e)
             {
                 throw;
             }
-           
+
         }
 
         // POST: PagoController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit(int id, Pago pago)
         {
             try
@@ -113,15 +117,24 @@ namespace Inmobiliaria.Controllers
         }
 
         // GET: PagoController/Delete/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
-            var pago = repositorioPago.ObtenerPorId(id);
-            return View(pago);
+            try
+            {
+                var pago = repositorioPago.ObtenerPorId(id);
+                return View(pago);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
 
         // POST: PagoController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id, IFormCollection collection)
         {
             try
@@ -129,7 +142,7 @@ namespace Inmobiliaria.Controllers
                 var resultado = repositorioPago.Delete(id);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception e)
             {
                 return View();
             }
