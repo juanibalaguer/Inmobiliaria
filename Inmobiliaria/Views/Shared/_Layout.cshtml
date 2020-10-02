@@ -6,7 +6,9 @@
     <title>@ViewData["Title"] - Inmobiliaria</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
     <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="https://unpkg.com/mustache@latest"></script>
 </head>
 <body>
     <header>
@@ -31,7 +33,7 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="Contrato" asp-action="Index">Contratos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Pago" asp-action="Index">Pagos</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Pago" asp-action="Index" asp-route-id="0">Pagos</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Index">Usuarios</a>

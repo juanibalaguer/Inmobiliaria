@@ -9,11 +9,19 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" >
+        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Numero" class="control-label"></label>
-                <input asp-for="Numero" class="form-control" />
+                @if (ViewBag.UltimoPago != null)
+                {
+                    <input asp-for="Numero" class="form-control" value="@ViewBag.UltimoPago" readonly/>
+                }
+                else
+                {
+                    <input asp-for="Numero" class="form-control" />
+                }
+
                 <span asp-validation-for="Numero" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -44,12 +52,12 @@
 </div>
 
 <div>
-    <a asp-action="Index">Volver al índice</a>
+    <a asp-action="Index" asp-route-id="@ViewBag.IdContrato">Volver al índice</a>
 </div>
 <script type="text/javascript">
-    function modificarImporte() {
-        inputImporte = document.getElementById("importe");
-        importe = $("#contrato").find(':selected').attr('montoAlquiler');
+    function modificarImporte(e) {
+        var inputImporte = document.getElementById("importe");
+        var importe = $("#contrato").find(':selected').attr('montoAlquiler');
         inputImporte.value = importe;
     }
     window.onload = modificarImporte();

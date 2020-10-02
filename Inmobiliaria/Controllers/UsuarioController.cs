@@ -69,6 +69,13 @@ namespace Inmobiliaria.Controllers
             {
                 try
                 {
+                    Usuario nuevoUsuario = repositorioUsuario.BuscarPorEmail(usuario.Email);
+                    if (nuevoUsuario != null)
+                    {
+                        ViewBag.MensajeError = "Ya existe un usuario con el email ingresado";
+                        ViewBag.Roles = Usuario.ObtenerRoles();
+                        return View(usuario);
+                    }
                     string hashContraseña = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                         password: usuario.Contraseña,
                         salt: System.Text.Encoding.ASCII.GetBytes(iconfiguration["Salt"]),
@@ -76,7 +83,7 @@ namespace Inmobiliaria.Controllers
                         iterationCount: 1000,
                         numBytesRequested: 256 / 8));
                     usuario.Contraseña = hashContraseña;
-                    usuario.Rol = User.IsInRole("Administrador") ? usuario.Rol : (int) roles.Empleado;
+                    usuario.Rol = User.IsInRole("Administrador") ? usuario.Rol : (int)roles.Empleado;
                     usuario.AvatarUrl = "/Uploads/default.png";
                     int resultado = repositorioUsuario.Create(usuario);
                     if (usuario.AvatarFile != null && usuario.IdUsuario > 0)

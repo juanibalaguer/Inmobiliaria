@@ -36,6 +36,22 @@ namespace Inmobiliaria.Controllers
             }
 
         }
+        [Route("[controller]/Busqueda/{query}/{estado}/{fechaInicio?}/{fechaFin?}", Name = "Buscar")]
+        [Authorize]
+        public IActionResult Busqueda(string query, bool estado, DateTime fechaInicio, DateTime fechaFin)
+        {
+            try
+            {
+                var resultado = repositorioInmueble.Busqueda(query, estado, fechaInicio, fechaFin);
+                return Json(new { Datos = resultado });
+
+            }
+            catch (Exception e)
+            {
+                return Json(new { Error = e.Message });
+
+            }
+        }
 
         // GET: InmuebleController/Details/5
         public ActionResult Details(int id)

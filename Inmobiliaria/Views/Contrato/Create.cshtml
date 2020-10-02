@@ -1,8 +1,8 @@
 ﻿@model Inmobiliaria.Models.Contrato
 
-@{ 
-    
-    ViewData["Title"] = "Nuevo contrato" ;
+@{
+
+    ViewData["Title"] = "Nuevo contrato";
 }
 
 
@@ -23,13 +23,13 @@
                 <span asp-validation-for="FechaFin" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="MontoAlquiler" class="control-label" ></label>
+                <label asp-for="MontoAlquiler" class="control-label"></label>
                 <input asp-for="MontoAlquiler" class="form-control" id="importe" onload="modificarImporte()" />
                 <span asp-validation-for="MontoAlquiler" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Inquilino</label>
-                <select asp-for="IdInquilino" class="form-control" name="IdInquilino" >
+                <select asp-for="IdInquilino" class="form-control" name="IdInquilino">
                     @foreach (var inquilino in (List<Inquilino>)ViewBag.inquilinos)
                     {
                         <option value="@inquilino.IdInquilino">@(inquilino.Nombre + " "+ inquilino.Apellido)</option>
@@ -39,10 +39,10 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Inmueble</label>
-                <select asp-for="IdInmueble" class="form-control" name="IdInmueble" onchange="modificarImporte()" id="inmueble" >
+                <select asp-for="IdInmueble" class="form-control" name="IdInmueble" onchange="modificarImporte()" id="inmueble">
                     @foreach (var inmueble in (List<Inmueble>)ViewBag.inmuebles)
                     {
-                        <option montoAlquiler="@inmueble.Precio"value="@inmueble.IdInmueble"> @(inmueble.Tipo + " ubicado/a en " + inmueble.Direccion)</option>
+                        <option montoAlquiler="@inmueble.Precio" value="@inmueble.IdInmueble"> @(inmueble.Tipo + " ubicado/a en " + inmueble.Direccion)</option>
                     }
                 </select>
                 <span asp-validation-for="IdInmueble" class="text-danger"></span>
@@ -54,10 +54,21 @@
         </form>
     </div>
 </div>
+@if (ViewBag.IdInmueble != null)
+{
+    <p>
+        <div>
+            <a asp-action="Index" asp-route-id="@ViewBag.IdInmueble">Volver al índice</a>
+        </div>
+    </p>
+}
+else
+{
+    <div>
+        <a asp-action="Index">Volver al índice</a>
+    </div>
+}
 
-<div>
-    <a asp-action="Index">Volver al índice</a>
-</div>
 <script language="JavaScript" type="text/javascript">
     function modificarImporte() {
         inputImporte = document.getElementById("importe");

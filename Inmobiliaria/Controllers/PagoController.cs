@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 
 namespace Inmobiliaria.Controllers
 {
@@ -18,14 +19,18 @@ namespace Inmobiliaria.Controllers
         }
         // GET: PagoController
         [Authorize]
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
             try
             {
+                if (id > 0)
+                {
+                    ViewBag.IdContrato = id;
+                }
                 ViewBag.NuevoId = TempData["NuevoId"];
                 ViewBag.NuevaEntidad = TempData["NuevaEntidad"];
                 ViewBag.MensajeError = TempData["MensajeError"];
-                var contratos = repositorioPago.ObtenerTodos();
+                var contratos = repositorioPago.ObtenerTodos(id);
                 return View(contratos);
             }
             catch (Exception e)
@@ -33,6 +38,7 @@ namespace Inmobiliaria.Controllers
                 throw;
             }
         }
+        [Authorize]
 
         // GET: PagoController/Details/5
         public ActionResult Details(int id)
@@ -42,12 +48,23 @@ namespace Inmobiliaria.Controllers
 
         // GET: PagoController/Create
         [Authorize]
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
             try
             {
-                ViewBag.contratos = repositorioContrato.ObtenerTodos();
-                return View();
+                List<Contrato> contratos = new List<Contrato>();
+                contratos.Add(repositorioContrato.ObtenerPorId(id));
+                ViewBag.contratos = contratos;
+                if (id > 0)
+                {
+                    var pagos = repositorioPago.ObtenerTodos(id);
+                    ViewBag.UltimoPago = pagos.Count + 1;
+                }
+                Pago pago = new Pago();
+                pago.IdContrato = id;
+                pago.FechaDePago = DateTime.Now;
+                ViewBag.IdContrato = id;
+                return View(pago);
             }
             catch (Exception e)
             {
@@ -68,12 +85,12 @@ namespace Inmobiliaria.Controllers
                 {
                     TempData["NuevoId"] = resultado;
                     TempData["NuevaEntidad"] = "pago";
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Index", new { id = pago.IdContrato });
                 }
                 else
                 {
                     TempData["MensajeError"] = "Hubo un error al crear el pago.";
-                    return RedirectToAction(nameof(Index));
+                    return View(pago);
                 }
             }
             catch (Exception e)

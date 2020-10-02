@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 
 //Paginacion y buscador en lista
 
@@ -22,14 +23,18 @@ namespace Inmobiliaria.Controllers
         }
         // GET: ContratoController
         [Authorize]
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
             try
             {
+                if (id > 0)
+                {
+                    ViewBag.IdInmueble = id;
+                }
                 ViewBag.NuevoId = TempData["NuevoId"];
                 ViewBag.NuevaEntidad = TempData["NuevaEntidad"];
                 ViewBag.MensajeError = TempData["MensajeError"];
-                var contratos = repositorioContrato.ObtenerTodos();
+                var contratos = repositorioContrato.ObtenerTodos(id);
                 return View(contratos);
             }
             catch (Exception e)
@@ -47,14 +52,48 @@ namespace Inmobiliaria.Controllers
 
         // GET: ContratoController/Create
         [Authorize]
-        public ActionResult Create()
+        [Route("[Controller]/Create/{query}/{estado}/{fechaInicio?}/{fechaFin?}", Name = "NuevoPorFechas")]
+        public ActionResult Create(string query, bool estado, DateTime fechaInicio, DateTime fechaFin)
         {
             try
             {
                 ViewBag.inquilinos = repositorioInquilino.ObtenerTodos();
+                var inmueblesDisponibles = repositorioInmueble.Busqueda(query, estado, fechaInicio, fechaFin);
+                if (inmueblesDisponibles.Count <= 0)
+                {
+                    TempData["MensajeError"] = "No existen inmuebles para la búsqueda realizada";
+                    return RedirectToAction("Index", "Inmueble");
+                } 
+                ViewBag.inmuebles = inmueblesDisponibles;
+                var contrato = new Contrato();
+                contrato.FechaInicio = fechaInicio;
+                contrato.FechaFin = fechaFin;
+                return View(contrato);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+
+        }
+        [Authorize]
+        public ActionResult Create(int id)
+        {
+            try
+            {
+                ViewBag.inquilinos = repositorioInquilino.ObtenerTodos();
+                if (id > 0)
+                {
+                    var inmuebles = new List<Inmueble>();
+                    inmuebles.Add(repositorioInmueble.ObtenerPorId(id));
+                    ViewBag.inmuebles = inmuebles;
+                    ViewBag.IdInmueble = id;
+                    return View();
+                }
                 ViewBag.inmuebles = repositorioInmueble.ObtenerTodos();
                 ViewBag.ErrorDeFecha = TempData["ErrorDeFecha"];
                 return View();
+
             }
             catch (Exception e)
             {
@@ -86,8 +125,14 @@ namespace Inmobiliaria.Controllers
                     ViewBag.inmuebles = repositorioInmueble.ObtenerTodos();
                     return View(contrato);
                 }
-                var contratoVigente = repositorioContrato.ObtenerPorInmueble(contrato.IdInmueble);
-                if (contratoVigente != null && (contrato.FechaInicio >= contratoVigente.FechaInicio && contrato.FechaInicio <= contratoVigente.FechaFin))
+                var inmueblesDisponibles = repositorioInmueble.Busqueda("", true, contrato.FechaInicio, contrato.FechaFin);
+                List<int> idsInmuebles = new List<int>();
+                foreach (var item in inmueblesDisponibles)
+                {
+                    idsInmuebles.Add(item.IdInmueble);
+                }
+                var contiene = idsInmuebles.Contains(contrato.IdInmueble);
+                if (!idsInmuebles.Contains(contrato.IdInmueble))
                 {
                     ViewBag.MensajeError = "El inmueble seleccionado está ocupado durante la fecha seleccinada";
                     ViewBag.inquilinos = repositorioInquilino.ObtenerTodos();
@@ -100,12 +145,12 @@ namespace Inmobiliaria.Controllers
                     TempData["NuevoId"] = resultado;
                     TempData["NuevaEntidad"] = "contrato";
 
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index), contrato.IdInmueble);
                 }
                 else
                 {
                     TempData["MensajeError"] = "Hubo un error al crear el contrato.";
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index), new { id = contrato.IdInmueble});
                 }
             }
             catch (Exception e)
@@ -115,6 +160,24 @@ namespace Inmobiliaria.Controllers
         }
 
         // GET: ContratoController/Edit/5
+
+
+        [Route("[controller]/BuscarVigentes/{fechaDesde}/{fechaHasta}", Name = "BuscarVigente")]
+        [Authorize]
+        public IActionResult BuscarVigentes(DateTime fechaDesde, DateTime fechaHasta)
+        {
+            try
+            {
+                var resultado = repositorioContrato.ObtenerContratosVigentes(fechaDesde, fechaHasta);
+                return Json(new { Datos = resultado });
+
+            }
+            catch (Exception e)
+            {
+                return Json(new { Error = e.Message });
+
+            }
+        }
         [Authorize]
         public ActionResult Edit(int id)
         {

@@ -19,7 +19,7 @@ namespace Inmobiliaria.Models
         [Display(Name = "Número")]
         public int Numero { get; set; }
         [Required]
-        [Display (Name ="Código contrato")]
+        [Display(Name = "Contrato")]
         public int IdContrato { get; set; }
         [Required]
         public Contrato Contrato { get; set; }
