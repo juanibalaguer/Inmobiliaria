@@ -40,7 +40,7 @@ namespace Inmobiliaria.Models
                         Console.WriteLine(e);
                     }
 
-                    usuario.IdUsuario = resultado;
+                    usuario.Id = resultado;
                     connection.Close();
 
                 }
@@ -121,7 +121,7 @@ namespace Inmobiliaria.Models
                         {
                             usuario = new Usuario
                             {
-                                IdUsuario = reader.GetInt32(0),
+                                Id = reader.GetInt32(0),
                                 Email = reader.GetString(1),
                                 Nombre = reader.GetString(2),
                                 Apellido = reader.GetString(3),
@@ -159,7 +159,7 @@ namespace Inmobiliaria.Models
                         {
                             usuario = new Usuario
                             {
-                                IdUsuario = reader.GetInt32(0),
+                                Id = reader.GetInt32(0),
                                 Email = reader.GetString(1),
                                 Nombre = reader.GetString(2),
                                 Apellido = reader.GetString(3),
@@ -198,7 +198,7 @@ namespace Inmobiliaria.Models
                         {
                             Usuario usuario = new Usuario
                             {
-                                IdUsuario = reader.GetInt32(0),
+                                Id = reader.GetInt32(0),
                                 Email = reader.GetString(1),
                                 Nombre = reader.GetString(2),
                                 Apellido = reader.GetString(3),

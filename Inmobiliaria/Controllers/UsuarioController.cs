@@ -86,7 +86,7 @@ namespace Inmobiliaria.Controllers
                     usuario.Rol = User.IsInRole("Administrador") ? usuario.Rol : (int)roles.Empleado;
                     usuario.AvatarUrl = "/Uploads/default.png";
                     int resultado = repositorioUsuario.Create(usuario);
-                    if (usuario.AvatarFile != null && usuario.IdUsuario > 0)
+                    if (usuario.AvatarFile != null && usuario.Id > 0)
                     {
                         string root = enviroment.WebRootPath;
                         string path = Path.Combine(root, "Uploads");
@@ -102,7 +102,7 @@ namespace Inmobiliaria.Controllers
                         {
                             usuario.AvatarFile.CopyTo(stream);
                         }
-                        repositorioUsuario.Edit(usuario.IdUsuario, usuario);
+                        repositorioUsuario.Edit(usuario.Id, usuario);
                     }
                     return RedirectToAction(nameof(Index));
                 }

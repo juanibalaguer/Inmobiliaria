@@ -28,7 +28,7 @@
     <thead class="thead-dark">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdContrato)
+                @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FechaInicio)
@@ -53,7 +53,7 @@
         {
             <tr>
                 <td class="text-right">
-                    @Html.DisplayFor(modelItem => item.IdContrato)
+                    @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
                     @(item.FechaInicio.Date.ToShortDateString())
@@ -73,14 +73,14 @@
                 <td>
                     @if (User.Identity.IsAuthenticated && User.IsInRole("Administrador"))
                     {
-                        <a class="iconoLista" asp-action="Delete" asp-route-id="@item.IdContrato" title="Eliminar">
+                        <a class="iconoLista" asp-action="Delete" asp-route-id="@item.Id" title="Eliminar">
                             <i class="fas fa-trash-alt"></i>
                         </a>
                     }
-                    <a class="iconoLista" asp-action="Edit" asp-route-id="@item.IdContrato" title="Editar">
+                    <a class="iconoLista" asp-action="Edit" asp-route-id="@item.Id" title="Editar">
                         <i class="fas fa-edit"></i>
                     </a>
-                    <a class="iconoLista" asp-controller="Pago" asp-action="Index" asp-route-id="@item.IdContrato" title="Pagar">
+                    <a class="iconoLista" asp-controller="Pago" asp-action="Index" asp-route-id="@item.Id" title="Pagar">
                         <i class="fas fa-wallet"></i>
                     </a>
                 </td>
@@ -104,7 +104,7 @@ else
 <script id="t_contratos" type="x-tmpl-mustache">
     {{#datos}}
     <tr>
-        <td>{{idContrato}}</td>
+        <td>{{id}}</td>
         <td>{{fechaInicio}}</td>
         <td>{{fechaFin}}</td>
         <td>${{montoAlquiler}}</td>
@@ -113,15 +113,15 @@ else
         <td>
             @if (User.Identity.IsAuthenticated && User.IsInRole("Administrador"))
             {
-                <a class="iconoLista" href="Inmueble/Delete/{{idContrato}}" title="Eliminar">
+                <a class="iconoLista" href="Inmueble/Delete/{{id}}" title="Eliminar">
                     <i class="fas fa-trash-alt"></i>
                 </a>
             }
             @{
-                <a class="iconoLista" href="Inmueble/Edit/{{idContrato}}" title="Editar">
+                <a class="iconoLista" href="Inmueble/Edit/{{id}}" title="Editar">
                     <i class="fas fa-edit"></i>
                 </a>
-                <a class="iconoLista" href="Pago/Index/{{idContrato}}" title="Editar">
+                <a class="iconoLista" href="Pago/Index/{{id}}" title="Editar">
                     <i class="fas fa-wallet"></i>
                 </a>
             }

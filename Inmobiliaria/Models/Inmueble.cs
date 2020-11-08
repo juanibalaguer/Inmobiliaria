@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Inmobiliaria.Models
 {
@@ -13,10 +14,11 @@ namespace Inmobiliaria.Models
         private int idPropietario;
         private Propietario propietario;
         private bool estado;
+        private string foto;
 
         [Key]
         [Display(Name = "Código")]
-        public int IdInmueble { get; set; }
+        public int Id { get; set; }
         [Required]
         public string Direccion { get; set; }
         [Required]
@@ -30,11 +32,13 @@ namespace Inmobiliaria.Models
         public decimal Precio { get; set; }
         [Required]
         [Display(Name = "Propietario")]
+        [ForeignKey("Propietario")]
         public int IdPropietario { get; set; }
         [Required]
         public Propietario Propietario { get; set; }
         [Required]
         public bool Estado { get; set; }
+        public string Foto { get; set; }
 
 
     }

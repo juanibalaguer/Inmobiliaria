@@ -80,11 +80,15 @@ namespace Inmobiliaria.Controllers
         {
             try
             {
+                
                 var resultado = repositorioPago.Create(pago);
                 if (resultado != -1)
                 {
                     TempData["NuevoId"] = resultado;
                     TempData["NuevaEntidad"] = "pago";
+                    List<Contrato> contratos = new List<Contrato>();
+                    contratos.Add(repositorioContrato.ObtenerPorId(pago.IdContrato));
+                    ViewBag.contratos = contratos;
                     return RedirectToAction("Index", new { id = pago.IdContrato });
                 }
                 else

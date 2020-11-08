@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Inmobiliaria.Models
 {
@@ -15,11 +16,12 @@ namespace Inmobiliaria.Models
 
         [Key]
         [Display(Name = "Código")]
-        public int IdPago { get; set; }
+        public int Id { get; set; }
         [Display(Name = "Número")]
         public int Numero { get; set; }
         [Required]
         [Display(Name = "Contrato")]
+        [ForeignKey("Contrato")]
         public int IdContrato { get; set; }
         [Required]
         public Contrato Contrato { get; set; }

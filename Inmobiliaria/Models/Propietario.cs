@@ -4,7 +4,7 @@ namespace Inmobiliaria.Models
 {
     public class Propietario
     {
-        private int idPropietario;
+        private int id;
         private string nombre;
         private string dni;
         private string apellido;
@@ -12,7 +12,7 @@ namespace Inmobiliaria.Models
         private string telefono;
         [Key]
         [Display(Name = "Código")]
-        public int IdPropietario { get; set; }
+        public int Id { get; set; }
         [Required]
         public string DNI { get; set; }
         [Required]
@@ -22,6 +22,8 @@ namespace Inmobiliaria.Models
         [Required]
         [Display(Name = "E-mail")]
         public string Email { get; set; }
+        [Required, DataType(DataType.Password)]
+        public string Contraseña { get; set; }
         [Required]
         [Display(Name = "Teléfono")]
         public string Telefono { get; set; }

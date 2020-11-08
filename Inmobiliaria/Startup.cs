@@ -1,9 +1,12 @@
+using Inmobiliaria.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 
 namespace Inmobiliaria
@@ -26,7 +29,21 @@ namespace Inmobiliaria
                     options.LoginPath = "/login";
                     options.LogoutPath = "/logout";
                     options.AccessDeniedPath = "/Home/Restringido";
-                });
+                })
+                .AddJwtBearer(options =>//la api web valida con token
+                {
+                    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["TokenAuthentication:Issuer"],
+                        ValidAudience = Configuration["TokenAuthentication:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(Configuration["TokenAuthentication:SecretKey"])),
+                    };
+                }); ;
+
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("Administrador", policy =>
@@ -35,9 +52,12 @@ namespace Inmobiliaria
                     policy.RequireClaim(ClaimTypes.Role, "Empleado"));
             });
             services.AddControllersWithViews();
+            services.AddDbContext<DataContext>(
+            options => options.UseSqlServer(
+                   Configuration["ConnectionStrings:DefaultConnection"]));
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.  
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

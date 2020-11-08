@@ -32,7 +32,7 @@
                 <select asp-for="IdInquilino" class="form-control" name="IdInquilino">
                     @foreach (var inquilino in (List<Inquilino>)ViewBag.inquilinos)
                     {
-                        <option value="@inquilino.IdInquilino">@(inquilino.Nombre + " "+ inquilino.Apellido)</option>
+                        <option value="@inquilino.Id">@(inquilino.Nombre + " "+ inquilino.Apellido)</option>
                     }
                 </select>
                 <span asp-validation-for="IdInquilino" class="text-danger"></span>
@@ -42,7 +42,7 @@
                 <select asp-for="IdInmueble" class="form-control" name="IdInmueble" onchange="modificarImporte()" id="inmueble">
                     @foreach (var inmueble in (List<Inmueble>)ViewBag.inmuebles)
                     {
-                        <option montoAlquiler="@inmueble.Precio" value="@inmueble.IdInmueble"> @(inmueble.Tipo + " ubicado/a en " + inmueble.Direccion)</option>
+                        <option montoAlquiler="@inmueble.Precio" value="@inmueble.Id"> @(inmueble.Tipo + " ubicado/a en " + inmueble.Direccion)</option>
                     }
                 </select>
                 <span asp-validation-for="IdInmueble" class="text-danger"></span>

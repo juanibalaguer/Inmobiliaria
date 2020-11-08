@@ -39,7 +39,7 @@ namespace Inmobiliaria.Models
                         Console.WriteLine(e);
                     }
 
-                    contrato.IdContrato = resultado;
+                    contrato.Id = resultado;
                     connection.Close();
 
                 }
@@ -122,7 +122,7 @@ namespace Inmobiliaria.Models
                         {
                             contrato = new Contrato
                             {
-                                IdContrato = reader.GetInt32(0),
+                                Id = reader.GetInt32(0),
                                 FechaInicio = reader.GetDateTime(1),
                                 FechaFin = reader.GetDateTime(2),
                                 MontoAlquiler = reader.GetDecimal(3),
@@ -130,14 +130,14 @@ namespace Inmobiliaria.Models
                                 IdInmueble = reader.GetInt32(5),
                                 Inquilino = new Inquilino
                                 {
-                                    IdInquilino = reader.GetInt32(4),
+                                    Id = reader.GetInt32(4),
                                     DNI = reader.GetString(6),
                                     Nombre = reader.GetString(7),
                                     Apellido = reader.GetString(8),
                                 },
                                 Inmueble = new Inmueble
                                 {
-                                    IdInmueble = reader.GetInt32(5),
+                                    Id = reader.GetInt32(5),
                                     Direccion = reader.GetString(9),
                                     Tipo = reader.GetString(10),
                                 }
@@ -172,7 +172,7 @@ namespace Inmobiliaria.Models
                     "INNER JOIN Inmuebles inm ON c.IdInmueble = inm.Id";
                 if (idInmueble > 0)
                 {
-                    sql += " WHERE IdInmueble = @idInmueble";
+                    sql += " WHERE Id = @idInmueble";
                 }
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
@@ -190,7 +190,7 @@ namespace Inmobiliaria.Models
                         {
                             Contrato contrato = new Contrato
                             {
-                                IdContrato = reader.GetInt32(0),
+                                Id = reader.GetInt32(0),
                                 FechaInicio = reader.GetDateTime(1),
                                 FechaFin = reader.GetDateTime(2),
                                 MontoAlquiler = reader.GetDecimal(3),
@@ -198,14 +198,14 @@ namespace Inmobiliaria.Models
                                 IdInmueble = reader.GetInt32(5),
                                 Inquilino = new Inquilino
                                 {
-                                    IdInquilino = reader.GetInt32(4),
+                                    Id = reader.GetInt32(4),
                                     DNI = reader.GetString(6),
                                     Nombre = reader.GetString(7),
                                     Apellido = reader.GetString(8),
                                 },
                                 Inmueble = new Inmueble
                                 {
-                                    IdInmueble = reader.GetInt32(5),
+                                    Id = reader.GetInt32(5),
                                     Direccion = reader.GetString(9),
                                     Tipo = reader.GetString(10),
                                 }
@@ -249,7 +249,7 @@ namespace Inmobiliaria.Models
                         {
                             Contrato contrato = new Contrato
                             {
-                                IdContrato = reader.GetInt32(0),
+                                Id = reader.GetInt32(0),
                                 FechaInicio = reader.GetDateTime(1),
                                 FechaFin = reader.GetDateTime(2),
                                 MontoAlquiler = reader.GetDecimal(3),
@@ -257,14 +257,14 @@ namespace Inmobiliaria.Models
                                 IdInmueble = reader.GetInt32(5),
                                 Inquilino = new Inquilino
                                 {
-                                    IdInquilino = reader.GetInt32(4),
+                                    Id = reader.GetInt32(4),
                                     DNI = reader.GetString(6),
                                     Nombre = reader.GetString(7),
                                     Apellido = reader.GetString(8),
                                 },
                                 Inmueble = new Inmueble
                                 {
-                                    IdInmueble = reader.GetInt32(5),
+                                    Id = reader.GetInt32(5),
                                     Direccion = reader.GetString(9),
                                     Tipo = reader.GetString(10),
                                 }

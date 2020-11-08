@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\garba\\Desktop\\Tecnicatura en Desarrollo de Software\\.NET\\Inmobiliaria\\Inmobiliaria\\Inmobiliaria.csproj": {}
+    "C:\\Users\\garba\\Desktop\\Programación\\Tecnicatura en Desarrollo de Software\\.NET\\Inmobiliaria\\Inmobiliaria\\Inmobiliaria.csproj": {}
   },
   "projects": {
-    "C:\\Users\\garba\\Desktop\\Tecnicatura en Desarrollo de Software\\.NET\\Inmobiliaria\\Inmobiliaria\\Inmobiliaria.csproj": {
+    "C:\\Users\\garba\\Desktop\\Programación\\Tecnicatura en Desarrollo de Software\\.NET\\Inmobiliaria\\Inmobiliaria\\Inmobiliaria.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\garba\\Desktop\\Tecnicatura en Desarrollo de Software\\.NET\\Inmobiliaria\\Inmobiliaria\\Inmobiliaria.csproj",
+        "projectUniqueName": "C:\\Users\\garba\\Desktop\\Programación\\Tecnicatura en Desarrollo de Software\\.NET\\Inmobiliaria\\Inmobiliaria\\Inmobiliaria.csproj",
         "projectName": "Inmobiliaria",
-        "projectPath": "C:\\Users\\garba\\Desktop\\Tecnicatura en Desarrollo de Software\\.NET\\Inmobiliaria\\Inmobiliaria\\Inmobiliaria.csproj",
+        "projectPath": "C:\\Users\\garba\\Desktop\\Programación\\Tecnicatura en Desarrollo de Software\\.NET\\Inmobiliaria\\Inmobiliaria\\Inmobiliaria.csproj",
         "packagesPath": "C:\\Users\\garba\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\garba\\Desktop\\Tecnicatura en Desarrollo de Software\\.NET\\Inmobiliaria\\Inmobiliaria\\obj\\",
+        "outputPath": "C:\\Users\\garba\\Desktop\\Programación\\Tecnicatura en Desarrollo de Software\\.NET\\Inmobiliaria\\Inmobiliaria\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -41,6 +41,28 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[3.1.4, )"

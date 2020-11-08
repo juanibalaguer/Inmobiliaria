@@ -10,7 +10,7 @@
     <thead class="thead-dark">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdUsuario)
+                @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
@@ -34,7 +34,7 @@
         {
             <tr>
                 <td class="text-right">
-                    @Html.DisplayFor(modelItem => item.IdUsuario)
+                    @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Nombre)
@@ -54,11 +54,11 @@
                 <td>
                     @if (User.Identity.IsAuthenticated && User.IsInRole("Administrador"))
                     {
-                        <a class="iconoLista" asp-action="Delete" asp-route-id="@item.IdUsuario" title="Eliminar">
+                        <a class="iconoLista" asp-action="Delete" asp-route-id="@item.Id" title="Eliminar">
                             <i class="fas fa-trash-alt"></i>
                         </a>
                     }
-                    <a class="iconoLista" asp-action="Edit" asp-route-id="@item.IdUsuario" title="Editar">
+                    <a class="iconoLista" asp-action="Edit" asp-route-id="@item.Id" title="Editar">
                         <i class="fas fa-edit"></i>
                     </a>
                 </td>

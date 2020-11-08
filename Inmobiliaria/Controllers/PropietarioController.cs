@@ -1,5 +1,6 @@
 ﻿using Inmobiliaria.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -10,9 +11,11 @@ namespace Inmobiliaria.Controllers
     {
         RepositorioPropietario repositorioPropietario;
         int itemsPorPagina;
+        IConfiguration iconfiguration;
         public PropietarioController(IConfiguration iconfiguration)
         {
             repositorioPropietario = new RepositorioPropietario(iconfiguration);
+            this.iconfiguration = iconfiguration;
             itemsPorPagina = Convert.ToInt32(iconfiguration["ItemsPorPagina"]);
 
         }
@@ -66,6 +69,12 @@ namespace Inmobiliaria.Controllers
         {
             try
             {
+                propietario.Contraseña = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                        password: propietario.Contraseña,
+                        salt: System.Text.Encoding.ASCII.GetBytes(iconfiguration["Salt"]),
+                        prf: KeyDerivationPrf.HMACSHA1,
+                        iterationCount: 1000,
+                        numBytesRequested: 256 / 8));
                 var resultado = repositorioPropietario.Create(propietario);
                 if (resultado != -1)
                 {
@@ -110,6 +119,12 @@ namespace Inmobiliaria.Controllers
         {
             try
             {
+                propietario.Contraseña = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                        password: propietario.Contraseña,
+                        salt: System.Text.Encoding.ASCII.GetBytes(iconfiguration["Salt"]),
+                        prf: KeyDerivationPrf.HMACSHA1,
+                        iterationCount: 1000,
+                        numBytesRequested: 256 / 8));
                 repositorioPropietario.Edit(id, propietario);
                 return RedirectToAction(nameof(Index));
             }

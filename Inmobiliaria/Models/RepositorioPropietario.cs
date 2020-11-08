@@ -20,8 +20,8 @@ namespace Inmobiliaria.Models
             int resultado = -1;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sql = "INSERT INTO Propietarios(DNI, Nombre, Apellido, Email, Telefono)" +
-                    "VALUES (@DNI, @nombre, @apellido, @email, @telefono);" +
+                string sql = "INSERT INTO Propietarios(DNI, Nombre, Apellido, Email, Contraseña, Telefono)" +
+                    "VALUES (@DNI, @nombre, @apellido, @email, @contraseña, @telefono);" +
                     "SELECT SCOPE_IDENTITY()";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
@@ -29,6 +29,7 @@ namespace Inmobiliaria.Models
                     command.Parameters.AddWithValue("@nombre", propietario.Nombre);
                     command.Parameters.AddWithValue("@apellido", propietario.Apellido);
                     command.Parameters.AddWithValue("@email", propietario.Email);
+                    command.Parameters.AddWithValue("@contraseña", propietario.Contraseña);
                     command.Parameters.AddWithValue("@telefono", propietario.Telefono);
                     connection.Open();
                     try
@@ -40,7 +41,7 @@ namespace Inmobiliaria.Models
                         Console.WriteLine(e);
                     }
 
-                    propietario.IdPropietario = resultado;
+                    propietario.Id = resultado;
                     connection.Close();
 
                 }
@@ -54,13 +55,14 @@ namespace Inmobiliaria.Models
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 string sql = "UPDATE Propietarios SET DNI = @DNI, Nombre = @nombre, Apellido = @apellido," +
-                    "Email = @email, Telefono = @telefono WHERE Id = @id";
+                    "Email = @email, Contraseña = @contraseña, Telefono = @telefono WHERE Id = @id";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.Parameters.AddWithValue("@DNI", propietario.DNI);
                     command.Parameters.AddWithValue("@nombre", propietario.Nombre);
                     command.Parameters.AddWithValue("@apellido", propietario.Apellido);
                     command.Parameters.AddWithValue("@email", propietario.Email);
+                    command.Parameters.AddWithValue("@contraseña", propietario.Contraseña);
                     command.Parameters.AddWithValue("@telefono", propietario.Telefono);
                     command.Parameters.AddWithValue("@id", id);
                     connection.Open();
@@ -107,7 +109,7 @@ namespace Inmobiliaria.Models
             Propietario propietario = null;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sql = "SELECT Id, DNI, Nombre, Apellido, Email, Telefono " +
+                string sql = "SELECT Id, DNI, Nombre, Apellido, Email, Contraseña, Telefono " +
                     "from Propietarios WHERE id = @id";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
@@ -120,12 +122,13 @@ namespace Inmobiliaria.Models
                         {
                             propietario = new Propietario
                             {
-                                IdPropietario = reader.GetInt32(0),
+                                Id = reader.GetInt32(0),
                                 DNI = reader.GetString(1),
                                 Nombre = reader.GetString(2),
                                 Apellido = reader.GetString(3),
                                 Email = reader.GetString(4),
-                                Telefono = reader.GetString(5),
+                                Contraseña = reader.GetString(5),
+                                Telefono = reader.GetString(6),
                             };
                         }
                     }
@@ -145,7 +148,7 @@ namespace Inmobiliaria.Models
             List<Propietario> propietarios = new List<Propietario>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sql = "SELECT Id, DNI, Nombre, Apellido, Email, Telefono " +
+                string sql = "SELECT Id, DNI, Nombre, Apellido, Email, Contraseña, Telefono " +
                     "from Propietarios";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
@@ -157,12 +160,13 @@ namespace Inmobiliaria.Models
                         {
                             Propietario propietario = new Propietario
                             {
-                                IdPropietario = reader.GetInt32(0),
+                                Id = reader.GetInt32(0),
                                 DNI = reader.GetString(1),
                                 Nombre = reader.GetString(2),
                                 Apellido = reader.GetString(3),
                                 Email = reader.GetString(4),
-                                Telefono = reader.GetString(5),
+                                Contraseña = reader.GetString(5),
+                                Telefono = reader.GetString(6),
                             };
 
                             propietarios.Add(propietario);
@@ -209,7 +213,7 @@ namespace Inmobiliaria.Models
             List<Propietario> propietarios = new List<Propietario>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sql = "SELECT Id, DNI, Nombre, Apellido, Email, Telefono " +
+                string sql = "SELECT Id, DNI, Nombre, Apellido, Email, Contraseña, Telefono " +
                     "from Propietarios ORDER BY  Apellido, Nombre OFFSET @nroPagina ROWS FETCH FIRST @items ROWS ONLY";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
@@ -223,12 +227,13 @@ namespace Inmobiliaria.Models
                         {
                             Propietario propietario = new Propietario
                             {
-                                IdPropietario = reader.GetInt32(0),
+                                Id = reader.GetInt32(0),
                                 DNI = reader.GetString(1),
                                 Nombre = reader.GetString(2),
                                 Apellido = reader.GetString(3),
                                 Email = reader.GetString(4),
-                                Telefono = reader.GetString(5),
+                                Contraseña = reader.GetString(5),
+                                Telefono = reader.GetString(6),
                             };
 
                             propietarios.Add(propietario);

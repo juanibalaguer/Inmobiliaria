@@ -38,7 +38,7 @@ namespace Inmobiliaria.Models
                         Console.WriteLine(e);
                     }
 
-                    pago.IdPago = resultado;
+                    pago.Id = resultado;
                     connection.Close();
 
                 }
@@ -51,7 +51,7 @@ namespace Inmobiliaria.Models
             int resultado = -1;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sql = "UPDATE Pagos SET Numero = @numero, IdContrato = @idContrato, Importe = @importe, " +
+                string sql = "UPDATE Pagos SET Numero = @numero, Id = @idContrato, Importe = @importe, " +
                     "FechaDePago = @fechaDePago WHERE Id = @id";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
@@ -118,7 +118,7 @@ namespace Inmobiliaria.Models
                         {
                             pago = new Pago
                             {
-                                IdPago = reader.GetInt32(0),
+                                Id = reader.GetInt32(0),
                                 Numero = reader.GetInt32(1),
                                 IdContrato = reader.GetInt32(2),
                                 Importe = reader.GetDecimal(3),
@@ -173,7 +173,7 @@ namespace Inmobiliaria.Models
                         {
                             Pago pago = new Pago
                             {
-                                IdPago = reader.GetInt32(0),
+                                Id = reader.GetInt32(0),
                                 Numero = reader.GetInt32(1),
                                 IdContrato = reader.GetInt32(2),
                                 Importe = reader.GetDecimal(3),
@@ -205,7 +205,7 @@ namespace Inmobiliaria.Models
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 string sql = "SELECT Pagos.Id, Numero, IdContrato, Importe, FechaDePago, MontoAlquiler " +
-                    "FROM Pagos INNER JOIN Contratos on IdContrato = Contratos.Id WHERE IdContrato = @idContrato";
+                    "FROM Pagos INNER JOIN Contratos on IdContrato = Contratos.Id WHERE Id = @idContrato";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();
@@ -217,7 +217,7 @@ namespace Inmobiliaria.Models
                         {
                             Pago pago = new Pago
                             {
-                                IdPago = reader.GetInt32(0),
+                                Id = reader.GetInt32(0),
                                 Numero = reader.GetInt32(1),
                                 IdContrato = reader.GetInt32(2),
                                 Importe = reader.GetDecimal(3),

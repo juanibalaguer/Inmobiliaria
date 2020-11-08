@@ -21,8 +21,9 @@
                 <select class="form-control" name="IdContrato">
                     @foreach (var contrato in (List<Contrato>)ViewBag.contratos)
                     {
-                        @:<option @(Model.IdContrato == contrato.IdContrato ? "selected" : "") value="@contrato.IdContrato">@("Contrato Nº " + contrato.IdContrato + ", inmueble en "+ contrato.Inmueble.Direccion)</option>
+                        @:<option @(Model.IdContrato == contrato.Id ? "selected" : "") value="@contrato.Id">@("Contrato Nº " + contrato.Id + ", inmueble en "+ contrato.Inmueble.Direccion)</option>
                     }
+
                 </select>
                 <span asp-validation-for="IdContrato" class="text-danger"></span>
             </div>

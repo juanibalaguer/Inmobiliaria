@@ -129,7 +129,7 @@ namespace Inmobiliaria.Controllers
                 List<int> idsInmuebles = new List<int>();
                 foreach (var item in inmueblesDisponibles)
                 {
-                    idsInmuebles.Add(item.IdInmueble);
+                    idsInmuebles.Add(item.Id);
                 }
                 var contiene = idsInmuebles.Contains(contrato.IdInmueble);
                 if (!idsInmuebles.Contains(contrato.IdInmueble))

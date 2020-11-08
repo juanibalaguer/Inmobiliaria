@@ -24,7 +24,7 @@ namespace Inmobiliaria.Models
 
         [Key]
         [Display(Name = "Código")]
-        public int IdUsuario { get; set; }
+        public int Id { get; set; }
         [Required]
         public string Nombre { get; set; }
         [Required]

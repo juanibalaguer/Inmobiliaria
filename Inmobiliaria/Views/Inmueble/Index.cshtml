@@ -38,7 +38,7 @@
     <thead class="thead-dark">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdInmueble)
+                @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Direccion)
@@ -69,7 +69,7 @@
         {
             <tr>
                 <td class="text-right">
-                    @Html.DisplayFor(modelItem => item.IdInmueble)
+                    @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Direccion)
@@ -95,17 +95,17 @@
                 <td>
                     @if (User.Identity.IsAuthenticated && User.IsInRole("Administrador"))
                     {
-                        <a class="iconoLista" asp-action="Delete" asp-route-id="@item.IdInmueble" title="Eliminar">
+                        <a class="iconoLista" asp-action="Delete" asp-route-id="@item.Id" title="Eliminar">
                             <i class="fas fa-trash-alt"></i>
                         </a>
                     }
-                    <a class="iconoLista" asp-action="Edit" asp-route-id="@item.IdInmueble" title="Editar">
+                    <a class="iconoLista" asp-action="Edit" asp-route-id="@item.Id" title="Editar">
                         <i class="fas fa-edit"></i>
                     </a>
-                    <a class="iconoLista" asp-controller="Contrato" asp-action="Index" asp-route-id="@item.IdInmueble" title="Contratos">
+                    <a class="iconoLista" asp-controller="Contrato" asp-action="Index" asp-route-id="@item.Id" title="Contratos">
                         <i class="fas fa-scroll"></i>
                     </a>
-                    <a class="iconoLista" asp-controller="Contrato" asp-action="Create" asp-route-id="@item.IdInmueble" title="Nuevo contrato">
+                    <a class="iconoLista" asp-controller="Contrato" asp-action="Create" asp-route-id="@item.Id" title="Nuevo contrato">
                         <i class="fas fa-file-signature"></i>
                     </a>
                 </td>
@@ -121,7 +121,7 @@
 <script id="t_inmuebles" type="x-tmpl-mustache">
     {{#datos}}
     <tr>
-        <td>{{idInmueble}}</td>
+        <td>{{id}}</td>
         <td>{{direccion}}</td>
         <td>{{uso}}</td>
         <td>{{tipo}}</td>
@@ -137,18 +137,18 @@
         <td>
             @if (User.Identity.IsAuthenticated && User.IsInRole("Administrador"))
             {
-                <a class="iconoLista" href="Inmueble/Delete/{{idInmueble}}" title="Eliminar">
+                <a class="iconoLista" href="Inmueble/Delete/{{id}}" title="Eliminar">
                     <i class="fas fa-trash-alt"></i>
                 </a>
             }
             @{
-                <a class="iconoLista" href="Inmueble/Edit/{{idInmueble}}" title="Editar">
+                <a class="iconoLista" href="Inmueble/Edit/{{id}}" title="Editar">
                     <i class="fas fa-file-signature"></i>
                 </a>
-                <a class="iconoLista" href="Contrato/Index/{{idInmueble}}" title="Contratos">
+                <a class="iconoLista" href="Contrato/Index/{{id}}" title="Contratos">
                     <i class="fas fa-scroll"></i>
                 </a>
-                <a class="iconoLista" href="Contrato/Create/{{idInmueble}}" title="Nuevo contrato">
+                <a class="iconoLista" href="Contrato/Create/{{id}}" title="Nuevo contrato">
                     <i class="fas fa-file-signature"></i>
                 </a>
 

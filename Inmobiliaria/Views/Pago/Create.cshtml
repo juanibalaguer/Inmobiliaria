@@ -29,7 +29,7 @@
                 <select asp-for="IdContrato" class="form-control" name="IdContrato" onchange="modificarImporte()" id="contrato">
                     @foreach (var contrato in (List<Contrato>)ViewBag.contratos)
                     {
-                    <option montoAlquiler="@contrato.MontoAlquiler" value="@contrato.IdContrato"> @("Contrato Nº " + contrato.IdContrato + ", inmueble en "+ contrato.Inmueble.Direccion)</option>
+                    <option montoAlquiler="@contrato.MontoAlquiler" value="@contrato.Id"> @("Contrato Nº " + contrato.Id + ", inmueble en "+ contrato.Inmueble.Direccion)</option>
                     }
                 </select>
                 <span asp-validation-for="IdContrato" class="text-danger"></span>

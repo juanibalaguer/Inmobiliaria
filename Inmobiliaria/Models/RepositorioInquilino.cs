@@ -41,7 +41,7 @@ namespace Inmobiliaria.Models
                         Console.WriteLine(e);
                     }
 
-                    inquilino.IdInquilino = resultado;
+                    inquilino.Id = resultado;
                     connection.Close();
 
                 }
@@ -125,7 +125,7 @@ namespace Inmobiliaria.Models
                         {
                             inquilino = new Inquilino
                             {
-                                IdInquilino = reader.GetInt32(0),
+                                Id = reader.GetInt32(0),
                                 DNI = reader.GetString(1),
                                 Nombre = reader.GetString(2),
                                 Apellido = reader.GetString(3),
@@ -165,7 +165,7 @@ namespace Inmobiliaria.Models
                         {
                             Inquilino inquilino = new Inquilino
                             {
-                                IdInquilino = reader.GetInt32(0),
+                                Id = reader.GetInt32(0),
                                 DNI = reader.GetString(1),
                                 Nombre = reader.GetString(2),
                                 Apellido = reader.GetString(3),
@@ -207,7 +207,7 @@ namespace Inmobiliaria.Models
                         {
                             Inquilino inquilino = new Inquilino
                             {
-                                IdInquilino = reader.GetInt32(0),
+                                Id = reader.GetInt32(0),
                                 DNI = reader.GetString(1),
                                 Nombre = reader.GetString(2),
                                 Apellido = reader.GetString(3),
