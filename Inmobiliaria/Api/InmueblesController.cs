@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using Inmobiliaria.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Inmobiliaria.Api
 {
@@ -17,10 +20,12 @@ namespace Inmobiliaria.Api
     public class InmueblesController : ControllerBase
     {
         private readonly DataContext _context;
+        private readonly IHostingEnvironment enviroment;
 
-        public InmueblesController(DataContext context)
+        public InmueblesController(DataContext context, IHostingEnvironment enviroment)
         {
             _context = context;
+            this.enviroment = enviroment;
         }
 
         // GET: api/Inmuebles/
@@ -114,7 +119,20 @@ namespace Inmobiliaria.Api
 
             return NoContent();
         }
-
+        [HttpPut]
+        public async Task<ActionResult<Inmueble>> PutInmueble(Inmueble inmueble)
+        {
+            try
+            { 
+                    _context.Inmuebles.Update(inmueble);
+                    _context.SaveChanges();
+                    return Ok(inmueble);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
         // POST: api/Inmuebles
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
@@ -122,9 +140,31 @@ namespace Inmobiliaria.Api
         public async Task<ActionResult<Inmueble>> PostInmueble(Inmueble inmueble)
         {
             _context.Inmuebles.Add(inmueble);
+            
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetInmueble", new { id = inmueble.Id }, inmueble);
+        }
+        [HttpPost("Foto")]
+        public async Task<ActionResult<Inmueble>> PostFotoInmueble([FromForm] IFormFile file)
+        {
+            if (file != null)
+            {
+                string root = enviroment.WebRootPath;
+                string path = Path.Combine(root, "Uploads");
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+
+                }
+                string fileName = file.FileName + Path.GetExtension(file.FileName);
+                string pathCompleto = Path.Combine(path, fileName);
+                using (FileStream stream = new FileStream(pathCompleto, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+            }
+            return Ok("Foto subida satisfactoriamente");
         }
 
         // DELETE: api/Inmuebles/5

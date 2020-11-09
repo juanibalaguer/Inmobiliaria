@@ -34,7 +34,6 @@ namespace Inmobiliaria.Models
         [Display(Name = "Propietario")]
         [ForeignKey("Propietario")]
         public int IdPropietario { get; set; }
-        [Required]
         public Propietario Propietario { get; set; }
         [Required]
         public bool Estado { get; set; }
