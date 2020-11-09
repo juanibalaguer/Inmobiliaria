@@ -123,10 +123,19 @@ namespace Inmobiliaria.Api
         public async Task<ActionResult<Inmueble>> PutInmueble(Inmueble inmueble)
         {
             try
-            { 
+            {
+                var inm = await _context.Inmuebles.Where(i => i.Id == inmueble.Id).FirstOrDefaultAsync();
+                var propietario = await _context.Propietarios.Where(propietario => propietario.Email == User.Identity.Name).FirstOrDefaultAsync();
+                if(inm.IdPropietario == propietario.Id)
+                {
                     _context.Inmuebles.Update(inmueble);
                     _context.SaveChanges();
                     return Ok(inmueble);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
             catch (Exception ex)
             {

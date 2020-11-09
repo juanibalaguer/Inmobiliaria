@@ -118,11 +118,13 @@ namespace Inmobiliaria.Api
             try
             {
                 if (_context.Propietarios.AsNoTracking().FirstOrDefault(propietario => propietario.Email == User.Identity.Name) != null)
-                {
-                    _context.Propietarios.Update(propietario);
-                    _context.SaveChanges();
+                { 
+                    _context.Entry(propietario).State = EntityState.Modified;
+                    _context.Entry(propietario).Property(propietario => propietario.Contraseña).IsModified = false;
+                    await _context.SaveChangesAsync();
                     return Ok(propietario);
                 }
+
                 return BadRequest();
             }
             catch (Exception ex)
