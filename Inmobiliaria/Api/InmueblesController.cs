@@ -15,7 +15,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace Inmobiliaria.Api
 {
     [Route("api/[controller]")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+   // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     public class InmueblesController : ControllerBase
     {
@@ -135,7 +135,7 @@ namespace Inmobiliaria.Api
                 else
                 {
                     return BadRequest();
-                }
+                }   
             }
             catch (Exception ex)
             {

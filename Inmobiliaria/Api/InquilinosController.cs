@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 namespace Inmobiliaria.Api
 {
     [Route("api/[controller]")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     public class InquilinosController : ControllerBase
     {

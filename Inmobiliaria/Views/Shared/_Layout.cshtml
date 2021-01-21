@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="https://unpkg.com/mustache@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <
 </head>
 <body>
     <header>
@@ -37,6 +39,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Index">Usuarios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
                     </li>
                 </ul>
                     @if (User.Identity.IsAuthenticated)

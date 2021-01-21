@@ -51,7 +51,10 @@ namespace Inmobiliaria
                 options.AddPolicy("Empleado", policy =>
                     policy.RequireClaim(ClaimTypes.Role, "Empleado"));
             });
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                   .AddNewtonsoftJson(options =>
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
             services.AddDbContext<DataContext>(
             options => options.UseSqlServer(
                    Configuration["ConnectionStrings:DefaultConnection"]));
@@ -71,6 +74,7 @@ namespace Inmobiliaria
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+            app.UseCors();
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthentication();

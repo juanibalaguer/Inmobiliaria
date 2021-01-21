@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="text-center" id="pagina">
+    <h1 class="display-4">Estadísticas</h1>
+    <div class="container-sm">
+        <canvas id="myChart" width="400" height="400"></canvas>
+    </div>
+
+    <script>
+
+        
+        const cargarDatos = async (direcciones, precios) => {
+            await $.get("http://localhost:64132/api/inmueblesgratis").done((res) => {
+                console.log(res);
+                res.map(inmueble => direcciones.push(inmueble.direccion));
+                res.map(inmueble => precios.push(inmueble.precio));
+                console.log(direcciones);
+                return false;
+            });
+        }
+        const cargarGrafico = async () => {
+            let direcciones = [];
+            let precios = [];
+            await cargarDatos(direcciones, precios);
+            const context = document.getElementById("myChart").getContext("2d");
+            const myChart = new Chart(context, {
+                type: 'bar',
+                data: {
+                    labels: direcciones,
+                    datasets: [{
+                        label: '# of Votes',
+                        data: precios,
+                        backgroundColor: "#ADD8E6",
+                        borderColor: "#00008B",
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+        cargarGrafico();
+    </script>
+</div>
