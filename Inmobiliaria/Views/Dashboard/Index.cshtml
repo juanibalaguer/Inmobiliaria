@@ -4,8 +4,8 @@
 
 <div class="text-center" id="pagina">
     <h1 class="display-4">Estadísticas</h1>
-    <div class="container-sm">
-        <canvas id="myChart" width="400" height="400"></canvas>
+    <div class="container" style="height: 600px; width: 600px">
+        <canvas id="myChart"></canvas>
     </div>
 
     <script>
@@ -38,7 +38,6 @@
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: true,
                     scales: {
                         yAxes: [{
                             ticks: {
