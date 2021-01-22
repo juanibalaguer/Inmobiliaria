@@ -6,23 +6,36 @@
     <h1 class="display-4">Estadísticas</h1>
     <div class="container" style="height: 600px; width: 600px">
         <canvas id="myChart"></canvas>
+        <canvas id="myChart2"></canvas>
     </div>
 
     <script>
 
-        
+
         const cargarDatos = async (direcciones, precios) => {
             await $.get("http://localhost:64132/api/inmueblesgratis").done((res) => {
+           // await $.get(@Url.RouteUrl("/api/inmueblesgratis")).done((res) => {
+                           console.log(res);
+                           res.map(inmueble => direcciones.push(inmueble.direccion));
+                           res.map(inmueble => precios.push(inmueble.precio));
+                           console.log(direcciones);
+                           return false;
+                       });
+        }
+        const cargarTipos = async (tipos, count) => {
+            await $.get("http://localhost:64132/api/inmueblesgratis/tipos").done((res) => {
                 console.log(res);
-                res.map(inmueble => direcciones.push(inmueble.direccion));
-                res.map(inmueble => precios.push(inmueble.precio));
-                console.log(direcciones);
+                res.map(inmueble => tipos.push(inmueble.tipo));
+                res.map(inmueble => count.push(inmueble.count));
                 return false;
             });
         }
-        const cargarGrafico = async () => {
+
+        const cargarGraficos = async () => {
             let direcciones = [];
             let precios = [];
+
+            // Gráfico de barras
             await cargarDatos(direcciones, precios);
             const context = document.getElementById("myChart").getContext("2d");
             const myChart = new Chart(context, {
@@ -47,7 +60,25 @@
                     }
                 }
             });
+            // Gráfico de torta
+            let tipos = [];
+            let count = [];
+            await cargarTipos(tipos, count);
+            const context2 = document.getElementById("myChart2").getContext("2d");
+            const myChart2 = new Chart(context2, {
+                type: 'doughnut',
+                data: {
+                    labels: tipos,
+                    datasets: [{
+                        data: count,
+                        backgroundColor: ["red", "blue", "green", "yellow", "orange"],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                }
+            });
         }
-        cargarGrafico();
+        cargarGraficos();
     </script>
 </div>

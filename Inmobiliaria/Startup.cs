@@ -81,19 +81,22 @@ namespace Inmobiliaria
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapControllerRoute(
-                    name: "Paginado",
-                    pattern: "{controller=Home}/{action=Index}/pagina/{pagina?}");
-                endpoints.MapControllerRoute(
-                    name: "login",
-                    pattern: "login/{**accion}",
-                    new { controller = "Usuario", action = "Login" });
-                endpoints.MapControllerRoute(
-                   name: "Restringido",
-                   pattern: "{controller=Home}/restringido");
+            endpoints.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
+            endpoints.MapControllerRoute(
+                name: "Paginado",
+                pattern: "{controller=Home}/{action=Index}/pagina/{pagina?}");
+            endpoints.MapControllerRoute(
+                name: "login",
+                pattern: "login/{**accion}",
+                new { controller = "Usuario", action = "Login" });
+            endpoints.MapControllerRoute(
+               name: "Restringido",
+               pattern: "{controller=Home}/restringido");
+            /*endpoints.MapControllerRoute(
+               name: "api",
+               pattern: "api/{controller=Inmuebles}/{id?}");*/
             });
         }
     }

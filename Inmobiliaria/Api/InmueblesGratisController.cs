@@ -47,6 +47,29 @@ namespace Inmobiliaria.Api
             }
 
         }
+        // GET: api/InmueblesGratis/tipos
+        [HttpGet("Tipos")]
+        public async Task<ActionResult<IEnumerable<Inmueble>>> GetTipos()
+        {
+            try
+            {
+                var inmuebles = await _context.Inmuebles
+                    .Select(inmueble => 
+                    new { inmueble.Tipo, count = _context.Inmuebles.Where(i => i.Tipo == inmueble.Tipo)
+                    .Count() }).Distinct().ToListAsync();
+
+                if (inmuebles.Count > 0)
+                {
+                    return Ok(inmuebles);
+                }
+                else return NotFound("No se encontraron inmuebles");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+
+        }
         // GET: api/Inmuebles/
         /*   [HttpGet("Vigentes/")]
            public async Task<ActionResult<IEnumerable<Inmueble>>> GetVigentePorPropietario()
