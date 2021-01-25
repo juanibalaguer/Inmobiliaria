@@ -74,6 +74,13 @@
                         label: "Precios de inmuebles",
                         data: precios,
                         backgroundColor: "rgba(" + rgb + ", 0.3)",
+                      /*  backgroundColor: function(context) {
+                            var index = context.dataIndex;
+                            var value = context.dataset.data[index];
+                            return value > 20000 ? 'red' :  // draw negative values in red
+                                index % 2 ? 'blue' :    // else, alternate values in blue and green
+                                    'green';
+                        },*/
                         borderColor: "rgba(" + rgb + ", 1)",
                         borderWidth: 1
                     }]
@@ -143,7 +150,14 @@
                                     return '$' + value;
                                 }
                             }
-                        }]
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                min: 0,
+                                max: 25,
+                                stepSize: 1,
+                            }
+                        }],
                     }
                 }
             });
