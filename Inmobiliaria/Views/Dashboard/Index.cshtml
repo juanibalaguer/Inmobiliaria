@@ -18,12 +18,11 @@
             <canvas id="myChart3"></canvas>
         </div>
         <div class="col-md-6">
-           
+            <canvas id="myChart4"></canvas>
         </div>
     </div>
 
     <script>
-
         const cargarDatos = async (direcciones, precios) => {
             //await $.get("http://localhost:64132/api/inmueblesgratis").done((res) => {
             await $.get(`@Url.RouteUrl("api")/inmueblesgratis`).done((res) => {
@@ -43,7 +42,6 @@
                 return false;
             });
         }
-
         const cargarPromediosSegunAmbientes = async (ambientes, montosPromedio) => {
             //await $.get("http://localhost:64132/api/inmueblesgratis/tipos").done((res) => {
             await $.get(`@Url.RouteUrl("api")/inmueblesgratis/ambientes`).done((res) => {
@@ -53,22 +51,17 @@
                 return false;
             });
         }
-
-            const cargarGraficos = async () => {
-
+        const cargarGraficos = async () => {
             Chart.defaults.global.defaultFontFamily = 'Arial';
             Chart.defaults.global.defaultFontColor = "black";
-
             let direcciones = [];
             let precios = [];
-
             // Gráfico de barras
             await cargarDatos(direcciones, precios);
             const rgb = randomColors();
             const context = document.getElementById("myChart").getContext("2d");
             const myChart = new Chart(context, {
                 type: 'bar',
-
                 data: {
                     labels: direcciones,
                     datasets: [{
@@ -100,7 +93,7 @@
                     }
                 }
             });
-            // Gráfico de torta(prueba con grafico polar)
+            // Gráfico de torta
             let tipos = [];
             let count = [];
             let colores = [];
@@ -111,7 +104,7 @@
             console.log(colores);
             const context2 = document.getElementById("myChart2").getContext("2d");
             const myChart2 = new Chart(context2, {
-                type: 'polarArea',
+                type: 'pie',
                 data: {
                     labels: tipos,
                     datasets: [{
@@ -162,9 +155,36 @@
                     }
                 }
             });
+            // Gráfico de barra comparando
+            /*let tipos = [];
+            let count = [];
+            let colores = [];
+            await cargarTipos(tipos, count);*/
+            for (let i = 0; i < tipos.length; i++) {
+                colores.push("rgba(" + randomColors() + ", 1)");
+            }
+            console.log(colores);
+            const context4 = document.getElementById("myChart4").getContext("2d");
+            const myChart4 = new Chart(context4, {
+                type: 'bar',
+                data: {
+                    labels: ['Sep 2019', 'Oct 2019', 'Nov 2019', 'Dic 2019', 'Ene 2019', 'Feb 2019', 'Mar 2019'],
+                    datasets: [{
+                        label: "Cantidad de casas alquiladas",
+                        data: [53, 117, 79, 56, 45, 89, 61],
+                        backgroundColor: "rgba(" + rgb + ", 0.3)",
+                    }, {
+                        label: "Cantidad de negocios alquilados",
+                        data: [43, 105, 76, 50, 33, 97, 52],
+                            backgroundColor: "rgba(" + rgb + ", 1)",
+                    }]
+                },
+                options: {
+                    responsive: true,
+                }
+            });
         }
         cargarGraficos();
-
         const randomColors = () => {
             const r = Math.floor(Math.random() * 255);
             const g = Math.floor(Math.random() * 256);
