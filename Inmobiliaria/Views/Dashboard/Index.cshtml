@@ -12,6 +12,7 @@
             <canvas id="myChart2"></canvas>
         </div>
     </div>
+    <br />
     <div class="row">
         <div class="col-md-6">
             <canvas id="myChart3"></canvas>
@@ -55,11 +56,14 @@
         }
 
         const cargarGraficos = async () => {
+            Chart.defaults.global.defaultFontFamily = 'Arial';
+            Chart.defaults.global.defaultFontColor = "black";
             let direcciones = [];
             let precios = [];
 
             // Gráfico de barras
             await cargarDatos(direcciones, precios);
+            const rgb = randomColors();
             const context = document.getElementById("myChart").getContext("2d");
             const myChart = new Chart(context, {
                 type: 'bar',
@@ -69,8 +73,8 @@
                     datasets: [{
                         label: "Precios de inmuebles",
                         data: precios,
-                        backgroundColor: "#ADD8E6",
-                        borderColor: "#00008B",
+                        backgroundColor: "rgba(" + rgb + ", 0.3)",
+                        borderColor: "rgba(" + rgb + ", 1)",
                         borderWidth: 1
                     }]
                 },
@@ -91,7 +95,12 @@
             // Gráfico de torta
             let tipos = [];
             let count = [];
+            let colores = [];
             await cargarTipos(tipos, count);
+            for (let i = 0; i < tipos.length; i++) {
+                colores.push("rgba(" + randomColors() + ", 1)");
+            }
+            console.log(colores);
             const context2 = document.getElementById("myChart2").getContext("2d");
             const myChart2 = new Chart(context2, {
                 type: 'doughnut',
@@ -100,7 +109,7 @@
                     datasets: [{
                         label: "Cantidad de inmuebles según tipo",
                         data: count,
-                        backgroundColor: ["red", "blue", "green", "yellow", "orange"],
+                        backgroundColor: colores,
                     }]
                 },
                 options: {
@@ -119,8 +128,8 @@
                     datasets: [{
                         label: "Precio promedio según cantidad de ambientes",
                         data: montosPromedio,
-                        backgroundColor: "blue",
-                        borderColor: "green",
+                        backgroundColor: "rgba(" + rgb + ", 1)",
+                        borderColor: "rgba(" + rgb + ", 0.3)",
                         fill: false,
                     }]
                 },
@@ -140,5 +149,12 @@
             });
         }
         cargarGraficos();
+
+        const randomColors = () => {
+            const r = Math.floor(Math.random() * 255);
+            const g = Math.floor(Math.random() * 256);
+            const b = Math.floor(Math.random() * 255);
+            return `${r}, ${g}, ${b}`;
+        }
     </script>
 </div>
