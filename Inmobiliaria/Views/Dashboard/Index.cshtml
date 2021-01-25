@@ -24,7 +24,12 @@
 
     <script>
 
+        const cargarMesesResidenciales = async () => {
+            await $.get(`@Url.RouteUrl("api")/inmueblesgratis/residencialespormes`).done((res) => {
 
+                return res;
+            });
+        }
         const cargarDatos = async (direcciones, precios) => {
             //await $.get("http://localhost:64132/api/inmueblesgratis").done((res) => {
             await $.get(`@Url.RouteUrl("api")/inmueblesgratis`).done((res) => {
@@ -55,9 +60,19 @@
             });
         }
 
-        const cargarGraficos = async () => {
+            const cargarGraficos = async () => {
+
+                const mesesResidenciales = cargarMesesResidenciales();
+    
+                console.log(mesesResidenciales);
+                const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
             Chart.defaults.global.defaultFontFamily = 'Arial';
             Chart.defaults.global.defaultFontColor = "black";
+
+
+
+
             let direcciones = [];
             let precios = [];
 
