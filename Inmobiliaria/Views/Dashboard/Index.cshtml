@@ -18,18 +18,12 @@
             <canvas id="myChart3"></canvas>
         </div>
         <div class="col-md-6">
-            <canvas id="myChart4"></canvas>
+           
         </div>
     </div>
 
     <script>
 
-        const cargarMesesResidenciales = async () => {
-            await $.get(`@Url.RouteUrl("api")/inmueblesgratis/residencialespormes`).done((res) => {
-
-                return res;
-            });
-        }
         const cargarDatos = async (direcciones, precios) => {
             //await $.get("http://localhost:64132/api/inmueblesgratis").done((res) => {
             await $.get(`@Url.RouteUrl("api")/inmueblesgratis`).done((res) => {
@@ -62,16 +56,8 @@
 
             const cargarGraficos = async () => {
 
-                const mesesResidenciales = cargarMesesResidenciales();
-    
-                console.log(mesesResidenciales);
-                const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-
             Chart.defaults.global.defaultFontFamily = 'Arial';
             Chart.defaults.global.defaultFontColor = "black";
-
-
-
 
             let direcciones = [];
             let precios = [];
@@ -114,7 +100,7 @@
                     }
                 }
             });
-            // Gráfico de torta
+            // Gráfico de torta(prueba con grafico polar)
             let tipos = [];
             let count = [];
             let colores = [];
@@ -125,7 +111,7 @@
             console.log(colores);
             const context2 = document.getElementById("myChart2").getContext("2d");
             const myChart2 = new Chart(context2, {
-                type: 'pie',
+                type: 'polarArea',
                 data: {
                     labels: tipos,
                     datasets: [{
@@ -174,34 +160,6 @@
                             }
                         }],
                     }
-                }
-            });
-            // Gráfico de barra comparando
-            /*let tipos = [];
-            let count = [];
-            let colores = [];
-            await cargarTipos(tipos, count);*/
-            for (let i = 0; i < tipos.length; i++) {
-                colores.push("rgba(" + randomColors() + ", 1)");
-            }
-            console.log(colores); 
-            const context4 = document.getElementById("myChart4").getContext("2d");
-            const myChart4 = new Chart(context4, {
-                type: 'bar',
-                data: {
-                    labels: ['Sep 2019', 'Oct 2019', 'Nov 2019', 'Dic 2019', 'Ene 2019', 'Feb 2019', 'Mar 2019'],
-                    datasets: [{
-                        label: "Cantidad de casas alquiladas",
-                        data: [53, 117, 79, 56, 45, 89, 61],
-                        backgroundColor: "rgba(" + rgb + ", 0.3)",
-                    }, {
-                        label: "Cantidad de negocios alquilados",
-                        data: [43, 105, 76, 50, 33, 97, 52],
-                            backgroundColor: "rgba(" + rgb + ", 1)",
-                    }]
-                },
-                options: {
-                    responsive: true,
                 }
             });
         }
