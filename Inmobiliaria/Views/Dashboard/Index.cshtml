@@ -18,7 +18,7 @@
             <canvas id="myChart3"></canvas>
         </div>
         <div class="col-md-6">
-
+           
         </div>
     </div>
 
@@ -92,7 +92,7 @@
                     }
                 }
             });
-            // Gráfico de torta
+            // Gráfico de torta(prueba con grafico polar)
             let tipos = [];
             let count = [];
             let colores = [];
@@ -103,7 +103,7 @@
             console.log(colores);
             const context2 = document.getElementById("myChart2").getContext("2d");
             const myChart2 = new Chart(context2, {
-                type: 'doughnut',
+                type: 'polarArea',
                 data: {
                     labels: tipos,
                     datasets: [{
