@@ -98,6 +98,71 @@ namespace Inmobiliaria.Api
             }
 
         }
+        // GET: api/InmueblesGratis/comercialespormes
+        [HttpGet("comercialespormes")]
+        public async Task<ActionResult<IEnumerable<Inmueble>>> ComercialesPorMes()
+        {
+            try
+            {
+
+                var contratosPorMes = await _context.Contratos
+                    .Include(contrato => contrato.Inmueble)
+                    .Select(contrato => new
+                    {
+                        contrato.FechaInicio.Month,
+                        comerciales = _context.Contratos
+                        .Where(c => c.FechaInicio.Month == contrato.FechaInicio.Month && c.Inmueble.Uso == "Comercial")// && contrato.Inmueble.Uso == "Comercial")
+                        .Count()
+                    }).Distinct()
+                    .OrderBy(contrato => contrato.Month)
+                    .ToListAsync();
+             
+
+                if (contratosPorMes.Count > 0)
+                {
+                    return Ok(contratosPorMes);
+                }
+                else return NotFound("No se encontraron inmuebles");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+
+        }
+        // GET: api/InmueblesGratis/residencialespormes
+        [HttpGet("residencialespormes")]
+        public async Task<ActionResult<IEnumerable<Inmueble>>> ResidencialesPorMes()
+        {
+            try
+            {
+
+                var contratosPorMes = await _context.Contratos
+                    .Include(contrato => contrato.Inmueble)
+                    .Select(contrato => new
+                    {
+                        contrato.FechaInicio.Month,
+                        residenciales = _context.Contratos
+                        .Where(c => c.FechaInicio.Month == contrato.FechaInicio.Month && c.Inmueble.Uso == "Residencial")
+                        .Count()
+                    }).Distinct()
+                    .OrderBy(contrato => contrato.Month)
+                    .ToListAsync();
+
+
+                if (contratosPorMes.Count > 0)
+                {
+                    return Ok(contratosPorMes);
+                }
+                else return NotFound("No se encontraron inmuebles");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+
+        }
+
         // GET: api/Inmuebles/
         /*   [HttpGet("Vigentes/")]
            public async Task<ActionResult<IEnumerable<Inmueble>>> GetVigentePorPropietario()
