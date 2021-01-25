@@ -2,19 +2,31 @@
     ViewData["Title"] = "Dashboard";
 }
 
-<div class="text-center" id="pagina">
+<div class="text-center container" id="pagina">
     <h1 class="display-4">Estadísticas</h1>
-    <div class="container" style="height: 600px; width: 600px">
-        <canvas id="myChart"></canvas>
-        <canvas id="myChart2"></canvas>
+    <div class="row">
+        <div class="col-md-6">
+            <canvas id="myChart"></canvas>
+        </div>
+        <div class="col-md-6">
+            <canvas id="myChart2"></canvas>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <canvas id="myChart3"></canvas>
+        </div>
+        <div class="col-md-6">
+
+        </div>
     </div>
 
     <script>
 
 
         const cargarDatos = async (direcciones, precios) => {
-            await $.get("http://localhost:64132/api/inmueblesgratis").done((res) => {
-           // await $.get(@Url.RouteUrl("/api/inmueblesgratis")).done((res) => {
+            //await $.get("http://localhost:64132/api/inmueblesgratis").done((res) => {
+            await $.get(`@Url.RouteUrl("api")/inmueblesgratis`).done((res) => {
                            console.log(res);
                            res.map(inmueble => direcciones.push(inmueble.direccion));
                            res.map(inmueble => precios.push(inmueble.precio));
@@ -23,10 +35,21 @@
                        });
         }
         const cargarTipos = async (tipos, count) => {
-            await $.get("http://localhost:64132/api/inmueblesgratis/tipos").done((res) => {
+            //await $.get("http://localhost:64132/api/inmueblesgratis/tipos").done((res) => {
+            await $.get(`@Url.RouteUrl("api")/inmueblesgratis/tipos`).done((res) => {
                 console.log(res);
                 res.map(inmueble => tipos.push(inmueble.tipo));
                 res.map(inmueble => count.push(inmueble.count));
+                return false;
+            });
+        }
+
+        const cargarPromediosSegunAmbientes = async (ambientes, montosPromedio) => {
+            //await $.get("http://localhost:64132/api/inmueblesgratis/tipos").done((res) => {
+            await $.get(`@Url.RouteUrl("api")/inmueblesgratis/ambientes`).done((res) => {
+                console.log(res);
+                res.map(inmueble => ambientes.push(inmueble.ambientes));
+                res.map(inmueble => montosPromedio.push(inmueble.montoPromedio));
                 return false;
             });
         }
@@ -40,9 +63,11 @@
             const context = document.getElementById("myChart").getContext("2d");
             const myChart = new Chart(context, {
                 type: 'bar',
+
                 data: {
                     labels: direcciones,
                     datasets: [{
+                        label: "Precios de inmuebles",
                         data: precios,
                         backgroundColor: "#ADD8E6",
                         borderColor: "#00008B",
@@ -55,6 +80,9 @@
                         yAxes: [{
                             ticks: {
                                 beginAtZero: true,
+                                callback: function (value, index, values) {
+                                    return '$' + value;
+                                }
                             }
                         }]
                     }
@@ -70,12 +98,44 @@
                 data: {
                     labels: tipos,
                     datasets: [{
+                        label: "Cantidad de inmuebles según tipo",
                         data: count,
                         backgroundColor: ["red", "blue", "green", "yellow", "orange"],
                     }]
                 },
                 options: {
                     responsive: true,
+                }
+            });
+            // Gráfico de linea
+            let ambientes = [];
+            let montosPromedio = [];
+            await cargarPromediosSegunAmbientes(ambientes, montosPromedio);
+            const context3 = document.getElementById("myChart3").getContext("2d");
+            const myChart3 = new Chart(context3, {
+                type: 'line',
+                data: {
+                    labels: ambientes,
+                    datasets: [{
+                        label: "Precio promedio según cantidad de ambientes",
+                        data: montosPromedio,
+                        backgroundColor: "blue",
+                        borderColor: "green",
+                        fill: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                callback: function (value, index, values) {
+                                    return '$' + value;
+                                }
+                            }
+                        }]
+                    }
                 }
             });
         }

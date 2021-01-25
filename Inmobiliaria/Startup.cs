@@ -94,9 +94,9 @@ namespace Inmobiliaria
             endpoints.MapControllerRoute(
                name: "Restringido",
                pattern: "{controller=Home}/restringido");
-            /*endpoints.MapControllerRoute(
-               name: "api",
-               pattern: "api/{controller=Inmuebles}/{id?}");*/
+                endpoints.MapControllerRoute(
+                   name: "api",
+                   pattern: "api");
             });
         }
     }

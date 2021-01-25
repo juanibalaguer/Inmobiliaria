@@ -55,8 +55,36 @@ namespace Inmobiliaria.Api
             {
                 var inmuebles = await _context.Inmuebles
                     .Select(inmueble => 
-                    new { inmueble.Tipo, count = _context.Inmuebles.Where(i => i.Tipo == inmueble.Tipo)
+                    new { inmueble.Tipo, 
+                          count = _context.Inmuebles.Where(i => i.Tipo == inmueble.Tipo)
                     .Count() }).Distinct().ToListAsync();
+
+                if (inmuebles.Count > 0)
+                {
+                    return Ok(inmuebles);
+                }
+                else return NotFound("No se encontraron inmuebles");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+
+        }
+        // GET: api/InmueblesGratis/ambientes
+        [HttpGet("ambientes")]
+        public async Task<ActionResult<IEnumerable<Inmueble>>> PrecioPorAmbiente()
+        {
+            try
+            {
+                var inmuebles = await _context.Inmuebles
+                    .Select(inmueble =>
+                    new { inmueble.Ambientes,
+                        montoPromedio = _context.Inmuebles.Where(i => i.Ambientes == inmueble.Ambientes).Select(i => i.Precio)
+                    .Average()
+                    }).Distinct()
+                    .OrderBy(inmueble => inmueble.Ambientes)
+                    .ToListAsync();
 
                 if (inmuebles.Count > 0)
                 {
