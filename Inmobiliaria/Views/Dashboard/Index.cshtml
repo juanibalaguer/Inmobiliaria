@@ -23,8 +23,6 @@
     </div>
 
     <script>
-
-
         const cargarDatos = async (direcciones, precios) => {
             //await $.get("http://localhost:64132/api/inmueblesgratis").done((res) => {
             await $.get(`@Url.RouteUrl("api")/inmueblesgratis`).done((res) => {
@@ -44,7 +42,6 @@
                 return false;
             });
         }
-
         const cargarPromediosSegunAmbientes = async (ambientes, montosPromedio) => {
             //await $.get("http://localhost:64132/api/inmueblesgratis/tipos").done((res) => {
             await $.get(`@Url.RouteUrl("api")/inmueblesgratis/ambientes`).done((res) => {
@@ -54,20 +51,17 @@
                 return false;
             });
         }
-
         const cargarGraficos = async () => {
             Chart.defaults.global.defaultFontFamily = 'Arial';
             Chart.defaults.global.defaultFontColor = "black";
             let direcciones = [];
             let precios = [];
-
             // Gráfico de barras
             await cargarDatos(direcciones, precios);
             const rgb = randomColors();
             const context = document.getElementById("myChart").getContext("2d");
             const myChart = new Chart(context, {
                 type: 'bar',
-
                 data: {
                     labels: direcciones,
                     datasets: [{
@@ -169,7 +163,7 @@
             for (let i = 0; i < tipos.length; i++) {
                 colores.push("rgba(" + randomColors() + ", 1)");
             }
-            console.log(colores); 
+            console.log(colores);
             const context4 = document.getElementById("myChart4").getContext("2d");
             const myChart4 = new Chart(context4, {
                 type: 'bar',
@@ -191,7 +185,6 @@
             });
         }
         cargarGraficos();
-
         const randomColors = () => {
             const r = Math.floor(Math.random() * 255);
             const g = Math.floor(Math.random() * 256);

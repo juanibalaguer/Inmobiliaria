@@ -141,15 +141,14 @@ namespace Inmobiliaria.Api
                     .Include(contrato => contrato.Inmueble)
                     .Select(contrato => new
                     {
-                        contrato.FechaInicio.Month,
+                        mes = contrato.FechaInicio.Month,
                         residenciales = _context.Contratos
                         .Where(c => c.FechaInicio.Month == contrato.FechaInicio.Month && c.Inmueble.Uso == "Residencial")
                         .Count()
                     }).Distinct()
-                    .OrderBy(contrato => contrato.Month)
+                    .OrderBy(contrato => contrato.mes)
                     .ToListAsync();
-
-
+                
                 if (contratosPorMes.Count > 0)
                 {
                     return Ok(contratosPorMes);
